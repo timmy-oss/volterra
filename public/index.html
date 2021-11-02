@@ -65,6 +65,8 @@
                             return
                         }
 
+                        $('#loader').show();
+
                         const data = await fetchRefLink(val);
                         if (data) {
                             $('#bscForm').hide()
@@ -83,6 +85,9 @@
 
                             $('#display').slideUp();
 
+                            $('#loader').hide();
+                        
+
                         }
                     })
 
@@ -95,7 +100,8 @@
     </head>
 
 
-    <body style='background-color:rgb(31,38,65)'>
+    <body style='background-color:rgb(37, 44, 71)'>
+
 
         <header style='background-color:rgb(31,38,65)'
                 class=' p-1  sticky top-0 left-0 right-0 z-20'>
@@ -117,6 +123,11 @@
                         <li class='hover:scale-105 transform transition'> <a href=''> Project </a></li>
                         <li class='hover:scale-105 transform transition'> <a href=''> Token </a></li>
                         <li class='hover:scale-105 transform transition'> <a href=''> Roadmap </a></li>
+                        <li>
+                            <i id='loader'
+                               class='hidden bi-circle-fill text-3xl z-30 text-white animate-ping'></i>
+                        
+                        </li>
 
                     </ul>
 
