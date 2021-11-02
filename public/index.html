@@ -24,7 +24,65 @@
         <link href="https://fonts.googleapis.com/css2?family=Quicksand&family=Raleway&family=Roboto:wght@400;700&display=swap"
               rel="stylesheet">
 
+            <script src='/jquery.min.js'></script>
+            
+            <script>
+
+                async function fetchRefLink(bsc) {
+                    try {
+
+                        const body = {
+                            chainAddress: bsc,
+                        };
+
+                        const res = await fetch('http://localhost:3000/api/v1/bsc/', {
+                            body: JSON.stringify(body), method: 'POST', headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        if (res.ok) {
+                            const data = await res.json();
+                            return data;
+
+                        }
+                        else {
+                            console.log(res.statusText);
+                            alert(res.statusText);
+                        }
+
+                    } catch (err) {
+                        console.log(err.message);
+                    }
+                }
+
+                $(document).ready(function () {
+                    $('#bsc').click(async function () {
+                        const val = $('#bscForm').val();
+                        if (val < 8 || val > 48) {
+                            alert('Please enter a valid address');
+                            return
+                        }
+
+                        const data = await fetchRefLink(val);
+                        if (data) {
+                            $('#bscForm').fadeOut();
+                            $('#bsc').fadeOut();
+
+                            $('#labelBsc').text("Your referral link");
+                            $('#showBoard').text(data.link);
+                            $('#showBoard').fadeIn();
+                        }
+                    })
+
+                })
+
+
+
+            </script>
+
     </head>
+
 
     <body style='background-color:rgb(31,38,65)'>
 
@@ -82,6 +140,7 @@
                         <div>
                             <div class='px-6 py-1'>
                                 <label style='font-family:Quicksand'
+                                id = 'labelBsc'
                                        class='text-white inline-block text-xl md:text-2xl text-center md:text-left p-4 md:font-bold'> Enter
                                     your BSC
                                     address:
@@ -91,14 +150,20 @@
                                        class='outline-none focus:ring-2 ring-offset-2 caret-blue-400  rounded px-4 py-2 md:py-4 md:px-12 block md:inline-block mx-auto'
                                        minlength='48'
                                        maxlength='48'
+                                       id = 'bscForm'
                                        placeholder="BSC Address"
                                        required />
 
 
-                                <button style='background-color:rgb(57, 82, 186);font-family:Raleway'
+                                <button id='bsc'
+                                        style='background-color:rgb(57, 82, 186);font-family:Raleway'
                                         class='block py-2 px-4 font-bold text-center mt-8 mb-4 text-lg hover:border border-white rounded  text-white  mx-auto'>
                                     Generate
                                     referral link</button>
+<button id='showBoard'
+        style='background-color:rgb(57, 82, 186);font-family:Raleway'
+        class='hidden py-2 px-4 font-bold text-center mt-8 mb-4 text-lg hover:border border-white rounded  text-white  mx-auto'>
+    ******</button>
                             </div>
                         </div>
 
@@ -183,6 +248,8 @@
         </main>
 
         <footer class='mt-64'></footer>
+
+
 
     </body>
 

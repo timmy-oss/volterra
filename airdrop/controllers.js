@@ -66,18 +66,15 @@ async function admitNewReferral(req, res) {
 }
 
 async function getNewLink(req, res) {
-	const userData = {};
-
 	const newLink = await User.generateReferralLink();
+	const chainAddress = req.body.chainAddress || '';
 
 	const chainExists = await User.exists({
-		chainAddress: req.body.chainAddress,
+		chainAddress,
 	});
 
 	if (chainExists) {
-		const user = await User.findOne({chainAddress: req.body.chainAddress})
-			.lean()
-			.exec();
+		const user = await User.findOne({chainAddress}).lean().exec();
 		const response = {
 			link: getRefLink(user.referralId),
 		};
@@ -86,7 +83,6 @@ async function getNewLink(req, res) {
 	}
 
 	const user = await User.create({
-		...userData,
 		chainAddress: req.body.chainAddress,
 		referralId: newLink,
 	});
