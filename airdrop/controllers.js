@@ -79,8 +79,8 @@ async function admitNewReferral(req, res) {
 
 				const response = {
 					link: getRefLink(newUser.referralId),
-					balance: user.wallet,
-					referred: user.referees.length,
+					balance: newUser.wallet,
+					referred: newUser.referees.length,
 				};
 				res.status(200).json(response);
 			} catch (err) {
