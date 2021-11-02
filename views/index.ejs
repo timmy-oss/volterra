@@ -89,7 +89,7 @@
                         return
                     }
 
-                    $('#loader').show();
+                    $('#loader').removeClass('hidden');
 
                     const data = await fetchRefLink(val);
                     if (data) {
@@ -114,7 +114,7 @@
 
                     }
 
-                    $('#loader').hide();
+                    $('#loader').addClass('hidden');
 
                 })
 
@@ -128,6 +128,17 @@
 
 
     <body style='background-color:rgb(37, 44, 71)'>
+
+        <div id='loader'
+             class='hidden fixed z-20 cursor-not-allowed bg-gray-500 opacity-75 top-0 left-0 right-0 bottom-0 flex flex-row justify-center content-center'>
+            <div class='self-center mx-auto'>
+                <i style='color:rgb(255, 255, 255)'
+                   class=' bi-circle-fill text-4xl block text-center  animate-bounce'></i>
+                <br />
+                <p style='font-family:Quicksand'
+                   class='text-center text-white'> Just a sec...</p>
+            </div>
+        </div>
 
 
         <header style='background-color:rgb(31,38,65)'
