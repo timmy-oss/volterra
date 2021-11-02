@@ -60,18 +60,20 @@
                         }
                         else {
                             console.log(res.statusText);
-                            alert(res.statusText);
+                            alert("An error occurred, please try again");
                         }
 
                     } catch (err) {
                         console.log(err.message);
+                        alert("Error connecting, please check your network");
+
                     }
                 }
 
                 $(document).ready(function () {
                     $('#bsc').click(async function () {
                         const val = $('#bscForm').val();
-                        if (val < 8 || val > 48) {
+                        if (val < 40 || val > 48) {
                             alert('Please enter a valid address');
                             return
                         }
