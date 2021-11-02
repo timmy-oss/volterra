@@ -15,9 +15,17 @@ app.use(express.json());
 
 app.use(express.static(__dirname + '/public'));
 
-app.use('/api/v1', cors(), userRouter);
+app.use(
+	'/api/v1',
+	cors({origin: 'https://volterra-x5.herokuapp.com/api/v1'}),
+	userRouter
+);
 
-app.get('/r/:ref/', cors(), routeReferee);
+app.get(
+	'/r/:ref/',
+	cors({origin: 'https://volterra-x5.herokuapp.com/r/:ref/'}),
+	routeReferee
+);
 
 
 //processes
