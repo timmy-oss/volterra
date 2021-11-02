@@ -9,7 +9,7 @@ const app = express();
 
 // Middlewares
 app.use(morgan('dev'));
-app.use(cookieParser(process.env.COOKIE_SECRET, {signed: true}));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 

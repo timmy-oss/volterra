@@ -8,14 +8,14 @@ const getRefLink = (refId) => `${process.env.REFERRAL_BASE_URL}/${refId}`;
 
 function routeReferee(req, res) {
 	if (req.method === 'GET') {
-		res.cookies.referrer = req.params.ref;
+		res.signedCookies.referrer = req.params.ref;
 
 		res.status(303).redirect('/new.html');
 	}
 }
 
 async function admitNewReferral(req, res) {
-	const ref = req.cookies.referrer;
+	const ref = req.signedCookies.referrer;
 	const chainAddress = req.body.chainAddress || '';
 
 	let user = null;
