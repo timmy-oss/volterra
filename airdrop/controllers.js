@@ -10,7 +10,6 @@ async function admitNewReferral(req, res) {
 	const ref = req.params.ref || '';
 	let user = null;
 	let newUser = null;
-	const newUserData = {};
 	try {
 		const userExists = await User.exists({referralId: ref});
 		if (!userExists) {
@@ -28,6 +27,8 @@ async function admitNewReferral(req, res) {
 					.exec();
 				const response = {
 					link: getRefLink(user.referralId),
+					balance: user.wallet,
+					referred: user.referees.length,
 				};
 				res.status(200).json(response);
 				return;
@@ -35,7 +36,6 @@ async function admitNewReferral(req, res) {
 
 			user = await User.findOne({referralId: ref}).exec();
 			newUser = await User.create({
-				...newUserData,
 				chainAddress: req.body.chainAddress,
 				referralId: await User.generateReferralLink(),
 			});
@@ -57,6 +57,8 @@ async function admitNewReferral(req, res) {
 
 		const response = {
 			link: getRefLink(newUser.referralId),
+			balance: user.wallet,
+			referred: user.referees.length,
 		};
 		res.status(200).json(response);
 	} catch (err) {
@@ -77,6 +79,8 @@ async function getNewLink(req, res) {
 		const user = await User.findOne({chainAddress}).lean().exec();
 		const response = {
 			link: getRefLink(user.referralId),
+			balance: user.wallet,
+			referred: user.referees.length,
 		};
 		res.status(200).json(response);
 		return;
@@ -89,6 +93,8 @@ async function getNewLink(req, res) {
 
 	const response = {
 		link: getRefLink(user.referralId),
+		balance: user.wallet,
+		referred: user.referees.length,
 	};
 
 	res.status(201).json(response);

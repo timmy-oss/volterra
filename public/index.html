@@ -36,9 +36,10 @@
                         };
 
                         const res = await fetch('http://localhost:3000/api/v1/bsc/', {
+                            cors: 'no-cors',
                             body: JSON.stringify(body), method: 'POST', headers: {
                                 'Content-Type': 'application/json'
-                            }
+                            },
                         });
 
                         if (res.ok) {
@@ -158,8 +159,7 @@
                                 <button id='bsc'
                                         style='background-color:rgb(57, 82, 186);font-family:Raleway'
                                         class='block py-2 px-4 font-bold text-center mt-8 mb-4 text-lg hover:border border-white rounded  text-white  mx-auto'>
-                                    Generate
-                                    referral link</button>
+                                    Claim airdrop</button>
 <button id='showBoard'
         style='background-color:rgb(57, 82, 186);font-family:Raleway'
         class='hidden py-2 px-4 font-bold text-center mt-8 mb-4 text-lg hover:border border-white rounded  text-white  mx-auto'>
