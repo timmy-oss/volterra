@@ -48,7 +48,7 @@
 
                     const res = await fetch('https://volterra-x5.herokuapp.com/api/v1/create-new', {
                         credentials: 'include',
-                        mode: 'no-cors',
+                        mode: 'cors',
                         body: JSON.stringify(body),
                         method: 'POST',
                         headers: {

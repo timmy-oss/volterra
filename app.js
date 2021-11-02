@@ -10,11 +10,11 @@ const app = express();
 
 // Middlewares
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({origin: 'https://volterra-x5.herokuapp.com'}));
+app.options('*', cors());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
 
-app.options('*', cors());
 
 app.use(express.static(__dirname + '/public'));
 
