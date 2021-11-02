@@ -6,8 +6,18 @@ const AIRDROP_PER_REFERRAL = process.env.AIRDROP_PER_REFERRAL;
 
 const getRefLink = (refId) => `${process.env.REFERRAL_BASE_URL}/${refId}`;
 
+function routeReferee(req, res) {
+	if (req.method === 'GET') {
+		res.cookies.referrer = req.params.ref;
+
+		res.status(303).redirect('/new.html');
+	}
+}
+
 async function admitNewReferral(req, res) {
-	const ref = req.params.ref || '';
+	const ref = req.cookies.referrer;
+	const chainAddress = req.body.chainAddress || '';
+
 	let user = null;
 	let newUser = null;
 	try {
@@ -16,12 +26,12 @@ async function admitNewReferral(req, res) {
 			res.status(401).end();
 		} else {
 			const chainExists = await User.exists({
-				chainAddress: req.body.chainAddress,
+				chainAddress,
 			});
 
 			if (chainExists) {
 				const user = await User.findOne({
-					chainAddress: req.body.chainAddress,
+					chainAddress,
 				})
 					.lean()
 					.exec();
@@ -36,7 +46,7 @@ async function admitNewReferral(req, res) {
 
 			user = await User.findOne({referralId: ref}).exec();
 			newUser = await User.create({
-				chainAddress: req.body.chainAddress,
+				chainAddress,
 				referralId: await User.generateReferralLink(),
 			});
 
@@ -103,4 +113,5 @@ async function getNewLink(req, res) {
 module.exports = {
 	getNewLink,
 	admitNewReferral,
+	routeReferee,
 };
