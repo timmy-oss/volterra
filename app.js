@@ -5,17 +5,23 @@ const prepDb = require('./db/prepDb');
 const {routeReferee} = require('./airdrop/controllers');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const app = express();
 
 // Middlewares
 app.use(morgan('dev'));
+app.use(cors());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
+
+app.options('*', cors());
+
 app.use(express.static(__dirname + '/public'));
 
 app.use('/api/v1', userRouter);
 
 app.get('/r/:ref/', routeReferee);
+
 
 //processes
 prepDb();
