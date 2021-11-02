@@ -25,7 +25,7 @@
               rel="stylesheet">
 
             <script src='/jquery.min.js'></script>
-            
+
             <script>
 
                 async function fetchRefLink(bsc) {
@@ -66,12 +66,12 @@
 
                         const data = await fetchRefLink(val);
                         if (data) {
-                            $('#bscForm').fadeOut();
-                            $('#bsc').fadeOut();
+                            $('#bscForm').hide()
+                            $('#bsc').hide()
 
-                            $('#labelBsc').text("Your referral link");
-                            $('#showBoard').text(data.link);
-                            $('#showBoard').fadeIn();
+                            $('#labelBsc').text("Your referral link ");
+                            $('#showBoard').html(data.link + "<i class='bi-clipboard-plus ml-2   text-white'></i>");
+                            $('#showBoard').fadeIn('slow');
                         }
                     })
 
@@ -163,7 +163,7 @@
 <button id='showBoard'
         style='background-color:rgb(57, 82, 186);font-family:Raleway'
         class='hidden py-2 px-4 font-bold text-center mt-8 mb-4 text-lg hover:border border-white rounded  text-white  mx-auto'>
-    ******</button>
+    ****** <i class='bi-clipboard-plus text-white'></i> </button>
                             </div>
                         </div>
 
