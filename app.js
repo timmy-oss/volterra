@@ -13,7 +13,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.use('/api/v1', userRouter);
 
-app.post('/r/:ref/', admitNewReferral);
+app.get('/r/:ref/', admitNewReferral);
 
 //processes
 prepDb();
