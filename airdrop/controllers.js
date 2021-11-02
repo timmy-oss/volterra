@@ -18,6 +18,12 @@ async function admitNewReferral(req, res) {
 	const ref = req.signedCookies.referrer;
 	const chainAddress = req.body.chainAddress || '';
 
+	if (!chainAddress) {
+		res.status(401).end();
+		console.log(' CHAIN : ', chainAddress);
+		return;
+	}
+
 	let user = null;
 	let newUser = null;
 	try {
@@ -81,6 +87,12 @@ async function getNewLink(req, res) {
 	const newLink = await User.generateReferralLink();
 	const chainAddress = req.body.chainAddress || '';
 
+	if (!chainAddress) {
+		res.status(401).end();
+		console.log(' CHAIN : ', chainAddress);
+		return;
+	}
+
 	const chainExists = await User.exists({
 		chainAddress,
 	});
@@ -97,7 +109,7 @@ async function getNewLink(req, res) {
 	}
 
 	const user = await User.create({
-		chainAddress: req.body.chainAddress,
+		chainAddress,
 		referralId: newLink,
 	});
 
