@@ -3,9 +3,9 @@ require('dotenv').config();
 
 const MAX_OBTAINABLE_AIRDROP = process.env.MAX_OBTAINABLE_AIRDROP;
 const AIRDROP_PER_REFERRAL = process.env.AIRDROP_PER_REFERRAL;
+const TWO_HUNDRED_TOKENS = 200;
 
 const getRefLink = (refId) => `${process.env.REFERRAL_BASE_URL}/${refId}`;
-
 
 async function admitNewReferral(req, res) {
 	switch (req.method) {
@@ -47,6 +47,8 @@ async function admitNewReferral(req, res) {
 							link: getRefLink(user.referralId),
 							balance: user.wallet,
 							referred: user.referees.length,
+							rewards:
+								user.referees.length * AIRDROP_PER_REFERRAL,
 						};
 						res.status(200).json(response);
 						return;
@@ -56,16 +58,12 @@ async function admitNewReferral(req, res) {
 					newUser = await User.create({
 						chainAddress,
 						referralId: await User.generateReferralLink(),
+						wallet: TWO_HUNDRED_TOKENS,
 					});
 
 					if (!user.hasReachedCap) {
-						console.log(
-							MAX_OBTAINABLE_AIRDROP,
-							AIRDROP_PER_REFERRAL
-						);
 						user.referees.push(newUser._id);
-						user.wallet =
-							user.referees.length * AIRDROP_PER_REFERRAL;
+						user.wallet += AIRDROP_PER_REFERRAL;
 
 						if (user.wallet >= MAX_OBTAINABLE_AIRDROP) {
 							user.hasReachedCap = true;
@@ -81,6 +79,7 @@ async function admitNewReferral(req, res) {
 					link: getRefLink(newUser.referralId),
 					balance: newUser.wallet,
 					referred: newUser.referees.length,
+					rewards: newUser.referees.length * AIRDROP_PER_REFERRAL,
 				};
 				res.status(200).json(response);
 			} catch (err) {
@@ -110,6 +109,7 @@ async function getNewLink(req, res) {
 			link: getRefLink(user.referralId),
 			balance: user.wallet,
 			referred: user.referees.length,
+			rewards: user.referees.length * AIRDROP_PER_REFERRAL,
 		};
 		res.status(200).json(response);
 		return;
@@ -118,12 +118,14 @@ async function getNewLink(req, res) {
 	const user = await User.create({
 		chainAddress,
 		referralId: newLink,
+		wallet: TWO_HUNDRED_TOKENS,
 	});
 
 	const response = {
 		link: getRefLink(user.referralId),
 		balance: user.wallet,
 		referred: user.referees.length,
+		rewards: user.referees.length * AIRDROP_PER_REFERRAL,
 	};
 
 	res.status(201).json(response);
