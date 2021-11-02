@@ -1,345 +1,2341 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US" class="no-js">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible"
-              content="IE=edge">
-        <meta name="viewport"
-              content="width=device-width, initial-scale=1.0">
-        <meta name='description'
-              content='Register for Volterra airdop' />
-        <title> Volterra | Airdrop </title>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
-        <link rel='stylesheet'
-              href='/tailwindcss.min.css' />
-        <link rel='stylesheet'
-              href='/font/bootstrap-icons.css' />
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <script>WebFontConfig = { google: { families: ['Catamaran:300,400,600,700:latin,latin-ext', 'Raleway:100,700:latin,latin-ext', 'Roboto:700:latin,latin-ext'] } };</script>
+    <script id="litespeed-webfont-lib" src="wp-content/plugins/litespeed-cache/js/webfontloader.min.js" async></script>
+    <link data-optimized='2' rel='stylesheet' href='min/af25d.css' />
+    <script data-optimized='1' src='min/5d41e.js'></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="theme-color" content="#000">
+    <title>Volterra</title>
+    <meta name='robots' content='noindex,nofollow' />
+    <link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
+    <link rel='dns-prefetch' href='http://s.w.org/' />
+    <style id='cryptoland-custom-style-inline-css' type='text/css'>
+        div#preloader {
+            background-color: #fff;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10000
+        }
 
-        <link rel="preconnect"
-              href="https://fonts.googleapis.com">
-        <link rel="preconnect"
-              href="https://fonts.gstatic.com"
-              crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Quicksand&family=Raleway&family=Roboto:wght@400;700&display=swap"
-              rel="stylesheet">
+        .loader05 {
+            width: 56px;
+            height: 56px;
+            border: 4px solid #00d8d6;
+            border-radius: 50%;
+            position: relative;
+            animation: loader-scale 1s ease-out infinite;
+            top: 50%;
+            margin: -28px auto 0
+        }
 
-        <script src='/jquery.min.js'></script>
-
-        <script>
-
-            let gLink = null;
-
-            function updateClipboard(e) {
-                navigator.clipboard.writeText(gLink).then(function () {
-                    alert("Link copied to clipboard");
-                }, function () {
-                    alert("Failed to copy link to clipboard");
-
-                });
+        @keyframes loader-scale {
+            0% {
+                transform: scale(0);
+                opacity: 0
             }
 
-            async function fetchRefLink(bsc) {
-                try {
-
-                    const body = {
-                        chainAddress: bsc,
-                        ref: '<?= ref ?>',
-                    };
-
-
-                    const res = await fetch('<?= url ?>', {
-                        credentials: 'omit',
-                        mode: 'cors',
-                        body: JSON.stringify(body),
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                    });
-
-                    if (res.ok) {
-                        const data = await res.json();
-                        return data;
-
-                    }
-                    else {
-                        console.log(res.statusText);
-                        alert("An error occurred, please try again");
-                    }
-
-                } catch (err) {
-                    console.log(err.message);
-                    alert("Error connecting, please check your network");
-
-                }
+            50% {
+                opacity: 1
             }
 
-            $(document).ready(function () {
+            100% {
+                transform: scale(1);
+                opacity: 0
+            }
+        }
 
-                $('#copyText').click(updateClipboard);
+        .c-backtop-1 {
+            line-height: 50px !important
+        }
 
-                $('#showNav').click(function () {
-                    $('#nav').toggle('fast')
-                    $('#showNav').toggleClass('bi-justify-left');
-                    $('#showNav').toggleClass('bi-x');
+        .c-backtop-1 i:before {
+            font-size: 17px !important
+        }
 
+        .c-backtop-1 i {
+            bottom: 50px !important
+        }
 
-                });
+        .c-backtop-1 {
+            background-color: #005AE6;
+            background-image: -webkit-gradient(linear, left top, right top, from(#005AE6), to(#f4929b));
+            background-image: -webkit-linear-gradient(left, #005AE6 0, #f4929b 100%);
+            background-image: -o-linear-gradient(left, #005AE6 0, #f4929b 100%);
+            background-image: linear-gradient(to right, #005AE6 0, #f4929b 100%)
+        }
 
+        .nt-img-lg_d img {
+            width: 45px !important
+        }
 
+        .nt-img-logo img {
+            height: 51px !important
+        }
 
+        @media (max-width:1200px) {
 
-                $('#bsc').click(async function () {
-                    const val = $('#bscForm').val();
-                    if (val.length < 40 || val.length > 48) {
-                        alert('Please enter a valid address');
-                        return
-                    }
-
-                    $('#loader').removeClass('hidden');
-
-                    const data = await fetchRefLink(val);
-                    // alert(JSON.stringify(data));
-                    if (data) {
-                        gLink = data.link;
-                        $('#bscForm').hide()
-                        $('#bsc').hide()
-
-                        $('#labelBsc').text("Your referral link ");
-                        $('#showBoardText').html(data.link);
-                        $('#showBoard').fadeIn('slow');
-                        $('#display').slideUp();
-
-
-                        $('#balance').text(data.balance);
-                        $('#referees').text(data.referred)
-                        $('#reward').text(data.rewards)
-                        $('#rewardsInUSD').text(data.rewardsInUSD)
-                        $('#balanceInUSD').text(data.balanceInUSD)
-
+            .fixed-menu .fixed-menu__content,
+            .mob-menu__item {
+                text-align: left !important
+            }
+        }
 
 
-                        $('#display').slideDown();
+        .page-id-279.hero-fullwidth {
+            height: 55vh !important;
+            max-height: 100%
+        }
 
+        @media (max-width:767px) {
+            .page-id-279.hero-fullwidth {
+                max-height: 60vh !important
+            }
+        }
 
+        .page-id-279.hero-fullwidth .hero-content {
+            text-align: center !important
+        }
 
-                    }
+        .page-id-279 .header:not(.sticky) {
+            background-color: transparent !important
+        }
 
-                    $('#loader').addClass('hidden');
+        .page-id-279.hero-fullwidth .hero-content {
+            text-align: left !important
+        }
 
-                })
+        .footer-widget-area {
+            padding-top: 96px !important
+        }
 
-            })
+        .copyright {
+            padding-top: 44px !important;
+            padding-bottom: 65px !important
+        }
+    </style>
 
+    </style>
+    <meta  />
+    <link rel="icon" href="/cropped-graphic-32x32.png"
+        sizes="32x32" />
+    <link rel="icon"
+        href="/cropped-graphic-192x192.png"
+        sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed"
+        href="/cropped-graphic-180x180.png" />
+    <meta name="msapplication-TileImage"
+        content="/cropped-graphic-270x270.png" />
+    <style type="text/css" id="wp-custom-css">
+        @media (max-width:768px) {
+            .wpb-js-composer .vc_general.vc_tta.vc_tta-accordion.vc_tta-color-cryptoland_vc_tta-color-purple .vc_tta-panel-title>a:before {
+                right: 8.5px
+            }
 
+            .chart__wrap {
+                position: relative;
+                margin-bottom: 60px
+            }
 
-        </script>
+            .token__info-list {
+                margin-bottom: 60px
+            }
 
-    </head>
+            img.platform__img {
+                margin-top: 41px
+            }
 
+            .vc_custom_1538511914519 {
+                text-align: center !important
+            }
 
-    <body style='background-color:rgb(37, 44, 71)'>
+            .press-carousel .owl-dots {
+                margin-top: 65px
+            }
 
-        <div id='loader'
-             class='hidden fixed z-20 cursor-not-allowed bg-gray-500 opacity-75 top-0 left-0 right-0 bottom-0 flex flex-row justify-center content-center'>
-            <div class='self-center mx-auto'>
-                <i style='color:rgb(255, 255, 255)'
-                   class=' bi-circle-fill text-4xl block text-center  animate-bounce'></i>
-                <br />
-                <p style='font-family:Quicksand'
-                   class='text-center text-white'> Just a sec...</p>
+            .wpb_single_image.vc_align_left {
+                text-align: center
+            }
+
+            .home3 .scroll-down {
+                bottom: -70px
+            }
+
+            .wpb-js-composer .vc_general.vc_tta.vc_tta-accordion.vc_tta-color-cryptoland_vc_tta-color-transparent .vc_tta-panel-title>a:before {
+                right: 7px
+            }
+
+            body #hero.hero-fullwidth {
+                padding: 63% 15px 42%;
+                max-height: 100% !important
+            }
+
+            .c-sidebar-1-widget {
+                margin-bottom: 60px;
+                padding: 0 !important
+            }
+        }
+
+        @media (max-width:575px) {
+            .c-blog-3-info {
+                padding: 10px 0
+            }
+
+            .c-sidebar-1-widget {
+                margin-bottom: 60px;
+                padding: 0 !important
+            }
+        }
+
+        #hero.first-screen p.breadcrumb {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff
+        }
+
+        .breadcrumb a {
+            color: #fff;
+            margin: 0 3px
+        }
+
+        .flexslider .slides>li:before,
+        .flex-direction-nav li:before,
+        .flexslider ul li:before {
+            width: 0
+        }
+
+        .flexslider .flex-direction-nav li {
+            position: inherit
+        }
+
+        #gallery-1 .gallery-item {
+            float: left;
+            margin-top: 0;
+            text-align: center;
+            width: 33%
+        }
+
+        .c-sidebar-1-widget ol li,
+        .c-sidebar-1-widget ul li {
+            text-transform: capitalize
+        }
+
+        ul#recentcomments li span {
+            color: #005AE6;
+            font-weight: 600
+        }
+    </style>
+    <style type="text/css" data-type="vc_custom-css">
+        @media (max-width:480px) {
+            span.flip-clock-divider {
+                display: none
+            }
+
+            .economy__video-btn {
+                bottom: -200px;
+                left: 100px
+            }
+        }
+    </style>
+    <style type="text/css" data-type="vc_shortcodes-custom-css">
+        .vc_custom_1540090914831 {
+            margin-bottom: 60px !important;
+            padding-top: 270px !important;
+            padding-bottom: 50px !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important
+        }
+
+        .vc_custom_1540090914834 {
+            padding-top: 150px !important;
+            padding-bottom: 50px !important
+        }
+
+        .vc_custom_1540822755560 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822748316 {
+            padding-top: 200px !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822748319 {
+            margin-top: -60px !important;
+            padding-top: 60px !important;
+            padding-bottom: 240px !important
+        }
+
+        .vc_custom_1542275875088 {
+            padding-top: 150px !important;
+            padding-bottom: 150px !important
+        }
+
+        .vc_custom_1542275875090 {
+            padding-top: 100px !important;
+            padding-bottom: 100px !important
+        }
+
+        .vc_custom_1542275875090 {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important
+        }
+
+        .vc_custom_1542275875092 {
+            padding-bottom: 0 !important
+        }
+
+        .vc_custom_1540822736916 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822727943 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1541377802548 {
+            padding-top: 150px !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important
+        }
+
+        .vc_custom_1541377802552 {
+            padding-top: 100px !important
+        }
+
+        .vc_custom_1541377802553 {
+            padding-top: 60px !important
+        }
+
+        .vc_custom_1540822717725 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822567958 {
+            padding-top: 150px !important;
+            padding-bottom: 150px !important;
+            background-position: 0 0 !important;
+            background-repeat: no-repeat !important
+        }
+
+        .vc_custom_1540822567962 {
+            padding-top: 100px !important;
+            padding-bottom: 100px !important
+        }
+
+        .vc_custom_1540822567964 {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important
+        }
+
+        .vc_custom_1540822699639 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822689443 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important
+        }
+
+        .vc_custom_1540822679962 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822668810 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1541312560379 {
+            padding-top: 150px !important;
+            padding-bottom: 150px !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1541312560382 {
+            padding-top: 100px !important;
+            padding-bottom: 100px !important
+        }
+
+        .vc_custom_1541312560384 {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important
+        }
+
+        .vc_custom_1541312634664 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822649856 {
+            padding-top: 150px !important
+        }
+
+        .vc_custom_1540822649860 {
+            padding-top: 100px !important
+        }
+
+        .vc_custom_1540822649862 {
+            padding-top: 60px !important
+        }
+
+        .vc_custom_1540822807336 {
+            padding-top: 150px !important;
+            padding-bottom: 150px !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822807339 {
+            padding-top: 100px !important;
+            padding-bottom: 100px !important
+        }
+
+        .vc_custom_1540822807341 {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important
+        }
+
+        .vc_custom_1540822815998 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822839399 {
+            margin-bottom: 70px !important;
+            padding-top: 120px !important
+        }
+
+        .vc_custom_1540822839403 {
+            padding-top: 70px !important
+        }
+
+        .vc_custom_1540822839405 {
+            margin-bottom: 0 !important;
+            padding-top: 30px !important
+        }
+
+        .vc_custom_1540822858565 {
+            padding-top: 150px !important;
+            padding-bottom: 150px !important
+        }
+
+        .vc_custom_1540822858569 {
+            padding-top: 100px !important;
+            padding-bottom: 100px !important
+        }
+
+        .vc_custom_1540822858571 {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important
+        }
+
+        .vc_custom_1541318039114 {
+            padding-bottom: 70px !important;
+            background-position: 0 0 !important;
+            background-repeat: no-repeat !important
+        }
+
+        .vc_custom_1541318039117 {
+            padding-bottom: 60px !important
+        }
+
+        .vc_custom_1541318039118 {
+            padding-bottom: 20px !important
+        }
+
+        .vc_custom_1541318039120 {
+            padding-bottom: 20px !important
+        }
+
+        .vc_custom_1540822880721 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1541378001037 {
+            padding-bottom: 100px !important
+        }
+
+        .vc_custom_1541378001041 {
+            padding-bottom: 50px !important
+        }
+
+        .vc_custom_1541378001043 {
+            padding-bottom: 10px !important
+        }
+
+        .vc_custom_1541378001045 {
+            padding-bottom: 10px !important
+        }
+
+        .vc_custom_1541378397691 {
+            padding-top: 150px !important;
+            padding-bottom: 120px !important
+        }
+
+        .vc_custom_1541378397696 {
+            padding-top: 100px !important;
+            padding-bottom: 70px !important
+        }
+
+        .vc_custom_1541378397698 {
+            padding-top: 60px !important;
+            padding-bottom: 30px !important
+        }
+
+        .vc_custom_1541378397700 {
+            padding-top: 60px !important;
+            padding-bottom: 30px !important
+        }
+
+        .vc_custom_1540822965299 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important
+        }
+
+        .vc_custom_1540822934044 {
+            padding-top: 150px !important;
+            padding-bottom: 150px !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important
+        }
+
+        .vc_custom_1540822934048 {
+            padding-top: 100px !important;
+            padding-bottom: 100px !important
+        }
+
+        .vc_custom_1540822934049 {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important
+        }
+
+        .vc_custom_1540822995896 {
+            padding-top: 0 !important;
+            padding-bottom: 80px !important
+        }
+
+        .vc_custom_1541311315833 {
+            margin-bottom: 0 !important
+        }
+
+        .vc_custom_1541311315839 {
+            margin-bottom: 25px !important
+        }
+
+        .vc_custom_1541310856157 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541310856167 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541311717614 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541311717622 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541311250978 {
+            margin-bottom: 38px !important
+        }
+
+        .vc_custom_1541311250988 {
+            margin-bottom: 25px !important
+        }
+
+        .vc_custom_1539210281356 {
+            margin-bottom: 12px !important;
+            padding-left: 23px !important
+        }
+
+        .vc_custom_1539210347805 {
+            margin-bottom: 12px !important;
+            padding-left: 23px !important
+        }
+
+        .vc_custom_1539210623984 {
+            margin-bottom: 12px !important;
+            padding-left: 23px !important
+        }
+
+        .vc_custom_1542275894911 {
+            margin-bottom: 0 !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important
+        }
+
+        .vc_custom_1542275894913 {
+            margin-top: 50px !important;
+            margin-bottom: 50px !important
+        }
+
+        .vc_custom_1542275894914 {
+            margin-bottom: 20px !important
+        }
+
+        .vc_custom_1541311798663 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541311798672 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541311811566 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541311811578 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541311846214 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541311846224 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541311857087 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541311857097 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1539274309047 {
+            padding-top: 35px !important;
+            padding-bottom: 35px !important;
+            background-color: #252d4b !important
+        }
+
+        .vc_custom_1542275958714 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1542275958718 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1542275967529 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1542275967532 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1540093414601 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1540093420346 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1540093845457 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1540093302807 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1540093440257 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541312111507 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541312111516 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541312123254 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541312123264 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541312895383 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541312895392 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541312950314 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541312950324 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1540096276475 {
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important
+        }
+
+        .vc_custom_1541312981479 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541312981489 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541312991578 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541312991587 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1539321476183 {
+            margin-bottom: 27px !important
+        }
+
+        .vc_custom_1539316549538 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1539316571544 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541313032537 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541313032547 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541313043433 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541313043443 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541313143037 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541313143047 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541313154478 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541313154488 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541318919536 {
+            margin-bottom: 100px !important
+        }
+
+        .vc_custom_1541318919540 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541318941792 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541318941803 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1540019071154 {
+            background-image: url(/advisor-avatar-bg.png?id=388) !important
+        }
+
+        .vc_custom_1540019082512 {
+            background-image: url(/advisor-avatar-bg.png?id=388) !important
+        }
+
+        .vc_custom_1540019091757 {
+            background-image: url(/advisor-avatar-bg.png?id=388) !important
+        }
+
+        .vc_custom_1540019103184 {
+            background-image: url(/advisor-avatar-bg.png?id=388) !important
+        }
+
+        .vc_custom_1541379477335 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541379477343 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541318999291 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541318999301 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541319021862 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541319021873 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541319038778 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541319038789 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541319061802 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541319061811 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541319116147 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541319116157 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1541319145954 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541319145963 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541319156451 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541319156461 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1540099245053 {
+            margin-bottom: 20px !important
+        }
+
+        .vc_custom_1540104081259 {
+            margin-bottom: 0 !important
+        }
+
+        .vc_custom_1540104081262 {
+            margin-bottom: 20px !important
+        }
+
+        .vc_custom_1541319326086 {
+            margin-bottom: 0 !important
+        }
+
+        .vc_custom_1541319326089 {
+            margin-bottom: 20px !important
+        }
+
+        .vc_custom_1541319471360 {
+            margin-bottom: 0 !important
+        }
+
+        .vc_custom_1541319471363 {
+            margin-bottom: 20px !important
+        }
+
+        .vc_custom_1541319639122 {
+            margin-bottom: 0 !important;
+            padding-top: 0 !important
+        }
+
+        .vc_custom_1541319639125 {
+            margin-bottom: 20px !important
+        }
+
+        .vc_custom_1541319639127 {
+            padding-top: 10px !important
+        }
+
+        .vc_custom_1541319380489 {
+            margin-bottom: 0 !important
+        }
+
+        .vc_custom_1541319392706 {
+            margin-bottom: 0 !important
+        }
+
+        .vc_custom_1541319183512 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1541319183521 {
+            margin-bottom: 15px !important
+        }
+
+        .vc_custom_1541319193864 {
+            margin-bottom: 60px !important
+        }
+
+        .vc_custom_1541319193875 {
+            margin-bottom: 35px !important
+        }
+
+        .vc_custom_1540822206129 {
+            margin-top: 27px !important
+        }
+
+        .vc_custom_1540822206132 {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important
+        }
+
+        .vc_custom_1540103009667 {
+            margin-bottom: 0 !important
+        }
+
+        .vc_custom_1540103009670 {
+            margin-bottom: 30px !important
+        }
+
+        .vc_custom_1540103138302 {
+            margin-bottom: 25px !important
+        }
+
+        .vc_custom_1540105361006 {
+            margin-bottom: 20px !important
+        }
+    </style><noscript>
+        <style type="text/css">
+            .wpb_animate_when_almost_visible {
+                opacity: 1
+            }
+        </style>
+    </noscript>
+</head>
+
+<body>
+    <div id="preloader" class="preloader">
+        <div class="loader05"></div>
+    </div>
+    <header class="header sticky-on">
+        <a class="logo nt-logo" href="#">
+            <div class="logo__img bg-none nt-img-logo">
+                <img class="static-logo" src="/2.png" width="70" height="51" alt="Logo">
+                <img class="sticky-logo" src="/2.png" width="70" height="51" alt="Logo">
             </div>
+            <div class="logo__title nt-text-logo">Volterra</div>
+        </a>
+        <ul class="menu">
+            <li class="menu__item"><a href="#about" title="About" class="menu__link">About</a></li>
+            <li class="menu__item"><a href="#services" title="Services" class="menu__link">Services</a></li>
+            <li class="menu__item"><a href="#timeline" title="Road Map" class="menu__link">Road Map</a></li>
+            <li class="menu__item"><a href="#statistic" title="Statistic" class="menu__link">Statistic</a></li>
+            <li class="menu__item"><a href="#token" title="Token" class="menu__link">Token</a></li>
+            <li class="menu__item"><a href="#document" title="WhitePapers" class="menu__link">WhitePapers</a></li>
+            <li class="menu__item"><a href="#team" title="Team" class="menu__link">Team</a></li>
+
+
+                    </select>
+                    <div class="sign-in-wrap"><a href="#0" class="btn-sign-in">Join Presale</a></div>
+                    </div>
+                    <div class="btn-menu">
+                        <div class="one"></div>
+                        <div class="two"></div>
+                        <div class="three"></div>
+                    </div>
+    </header>
+    <div class="fixed-menu">
+        <div class="fixed-menu__header">
+            <a class="logo logo--color mob-sticky-text-logo nt-logo" href="/2.png">
+                <div class="logo__img bg-none nt-img-logo">
+                    <img class="static-logo" src="/2.png" width="45" height="51" alt="Logo">
+                    <img class="sticky-logo" src="/2.png" width="45" height="51" alt="Logo">
+                </div>
+                <div class="logo__title nt-text-logo">Volterra</div>
+            </a>
+            <div class="btn-close">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px"
+                    y="0px" viewBox="0 0 47.971 47.971" style="enable-background:new 0 0 47.971 47.971;"
+                    xml:space="preserve" width="512px" height="512px">
+                    <path
+                        d="M28.228,23.986L47.092,5.122c1.172-1.171,1.172-3.071,0-4.242c-1.172-1.172-3.07-1.172-4.242,0L23.986,19.744L5.121,0.88   c-1.172-1.172-3.07-1.172-4.242,0c-1.172,1.171-1.172,3.071,0,4.242l18.865,18.864L0.879,42.85c-1.172,1.171-1.172,3.071,0,4.242   C1.465,47.677,2.233,47.97,3,47.97s1.535-0.293,2.121-0.879l18.865-18.864L42.85,47.091c0.586,0.586,1.354,0.879,2.121,0.879   s1.535-0.293,2.121-0.879c1.172-1.171,1.172-3.071,0-4.242L28.228,23.986z"
+                        fill="#006DF0" />
+                </svg>
+            </div>
+        </div>
+        <div class="fixed-menu__content">
+            <ul class="mob-menu">
+                <li class="mob-menu__item"><a href="#about" title="About" class="mob-menu__link">About</a></li>
+                <li class="mob-menu__item"><a href="#services" title="Services" class="mob-menu__link">Services</a></li>
+                <li class="mob-menu__item"><a href="#timeline" title="Road Map" class="mob-menu__link">Road Map</a></li>
+                <li class="mob-menu__item"><a href="#statistic" title="Statistic" class="mob-menu__link">Statistic</a>
+                </li>
+                <li class="mob-menu__item"><a href="#token" title="Token" class="mob-menu__link">Token</a></li>
+                <li class="mob-menu__item"><a href="#document" title="WhitePapers"
+                        class="mob-menu__link">WhitePapers</a></li>
+                <li class="mob-menu__item"><a href="#team" title="Team" class="mob-menu__link">Team</a></li>
+                        </select>
+                        <div class="btn-wrap mob-on">
+                            <a href="#0" class="btn-sign-in">Join Presale</a>
+                        </div>
+        </div>
+    </div>
+    <div class="c-backtop-1 -js-backtop">
+        <i class="c-backtop-1-icon fa fa-angle-up"></i>
+    </div>
+    <div class="wrapper">
+        <div class="container zindex1">
+            <div data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540090914831 overflow_visible zindex1 vc_row-has-fill"
+                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1540090914831{padding-top: 150px !important;padding-bottom: 50px !important;}}">
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <div class="promo promo3 ">
+                                <div class="promo__content" data-aos="fade-right">
+                                    <h1>Innovating <span>Crypto and Blockchain Norms</span></h1>
+                                    <p>Volterra aims to innovate the norms that exist in the decentralized ecosystem, as
+                                        it
+                                        focuses on a realistic approach rather than the system occupied by honeypots
+                                        projects
+                                        which have eventually bruised the long-term trust of new investors in the
+                                        decentralized
+                                        world. </p>
+                                        <p>Countdown to Public Sale </p>
+                                    <div class="timer-wrap">
+                                        <div class="timer timer2" id="timer" data-date="2022, 02, 20, 0, 0, 0, 0"></div>
+                                        <div class="timer__titles">
+                                            <div>Days</div>
+                                            <div>Hours</div>
+                                            <div>Minutes</div>
+                                            <div>Seconds</div>
+                                        </div>
+                                    </div>
+                                    <div class="promo__btns-wrap"><a class="btn btn--orange btn--medium"
+                                            href="/volterra-airdrop/"><span>Join Airdrop</span></a><a class="btn btn--blue btn--big"
+                                            href="#0">Presale</a></div>
+                                </div>
+                                <img src="/promo-bg.png" class="promo__img" alt="promo-bg.png" data-aos="fade-up">
+                                <div class="scroll-down"><img src="/scroll-down-1.png" alt="scroll-down-1.png"
+                                        data-aos="fade-up"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div id="economy_background_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822755560 bg-center-top overflow_visible vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img src="/video-bg.png"
+                            style=" width:100%; min-width:1680px; height:auto; top:-60px; left:50%;" alt=""
+                            class="absolute__bg horizontal-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div class="container">
+            <div id="economy" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822748316 bg-center-top overflow_visible vc_row-has-fill"
+                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1540822748316{margin-top: -60px !important;padding-top: 60px !important;padding-bottom: 240px !important;}}">
+                <div
+                    class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-offset-4 vc_col-lg-8 vc_col-md-offset-4 vc_col-md-8 vc_col-xs-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <div class="economy"><a data-jarallax-element="-40"
+                                    href="https://www.youtube.com/watch?v=7e90gBu4pas"
+                                    class="economy__video-btn video-btn popup-youtube"><img src="/video-btn.png"
+                                        alt="video-btn.png"></a>
+                                <div class="economy__block ">
+                                    <div class="economy__block-content">
+                                        <div
+                                            class="section-header section-header--white section-header--tire section-header--small-margin">
+                                            <h4>Volterra Ecosystem</h4>
+                                            <h2>A Disruptive <span>Innovation to Blockchain</span></h2>
+                                        </div>
+                                        <p>The innovative approach we are currently taking in changing the norms of the
+                                            Defi ecosystem is to implement a
+                                            realistic use case.
+                                        </p>
+                                        <ul>
+                                            <li><span>NFT Market Space</span> innovating with technology that increases rarerity and protect ownership of creators.</li>
+                                            <li><span>C2B payment wallet</span> that helps business owners recieve payments in Volt token and generate transactions data.</li>
+                                            <li><span>Innovative Cohort</span> for blockchain experts and enthusiast, a community where everyone is allowed to participate in new blockchain inventions.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div class="container">
+            <div id="about" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1542275875088"
+                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1542275875088{padding-top: 100px !important;padding-bottom: 100px !important;}} @media only screen and (max-width: 768px) {.vc_custom_1542275875088{padding-top: 60px !important;padding-bottom: 60px !important;}} @media only screen and (max-width: 576px) {.vc_custom_1542275875088{padding-bottom: 0px !important;}}">
+                <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-5 vc_col-md-6 vc_col-xs-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper vc_custom_1541311315833"
+                            data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541311315833{margin-bottom: 25px !important;}}">
+                            <h4 style="color: #545c79;text-align: left"
+                                class="ch_460788 style-tire vc_custom_heading vc_custom_1541310856157"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541310856157{margin-bottom: 15px !important;}} @media only screen and (max-width: 992px) {.ch_460788{}} @media only screen and (max-width: 768px) {.ch_460788{}} @media only screen and (max-width: 576px) {.ch_460788{}}">
+                                ABOUT Volterra</h4>
+                            <h2 style="text-align: left" class="ch_253074 vc_custom_heading"
+                                data-res-css=" @media only screen and (max-width: 992px) {.ch_253074{}} @media only screen and (max-width: 768px) {.ch_253074{}} @media only screen and (max-width: 576px) {.ch_253074{}}">
+                                Volterra Ecosystem</h2>
+                            <div style="font-size: 40px;color: #ffffff;line-height: 45px;text-align: left"
+                                class="ch_599617 f-raleway vc_custom_heading vc_custom_1541311717614"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541311717614{margin-bottom: 30px !important;}} @media only screen and (max-width: 992px) {.ch_599617{}} @media only screen and (max-width: 768px) {.ch_599617{font-size:30px!important; line-height:35px!important;}} @media only screen and (max-width: 576px) {.ch_599617{}}">
+                                innovating blockchain</div>
+                            <p style="color: #aab2cd;line-height: 30px;text-align: left"
+                                class="ch_261057 f-catamaran vc_custom_heading vc_custom_1541311250978"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541311250978{margin-bottom: 25px !important;}} @media only screen and (max-width: 992px) {.ch_261057{}} @media only screen and (max-width: 768px) {.ch_261057{}} @media only screen and (max-width: 576px) {.ch_261057{}}">
+                                Powered by a Defi Token called Volterra (VOLT), our ecosystem focuses on problem solving technology by introducing innovative products into the system while making sure our goal for humanity and expansion of it's technology is reached making sure;</p>
+                            <div style="font-size: 18px;color: #aab2cd;line-height: 30px;text-align: left"
+                                class="ch_978147 list-marker f-catamaran fw400 vc_custom_heading vc_custom_1539210281356"
+                                data-res-css=" @media only screen and (max-width: 992px) {.ch_978147{}} @media only screen and (max-width: 768px) {.ch_978147{}} @media only screen and (max-width: 576px) {.ch_978147{}}">
+                                Investors assets are Secured</div>
+                            <div style="font-size: 18px;color: #aab2cd;line-height: 30px;text-align: left"
+                                class="ch_858883 list-marker f-catamaran fw400 vc_custom_heading vc_custom_1539210347805"
+                                data-res-css=" @media only screen and (max-width: 992px) {.ch_858883{}} @media only screen and (max-width: 768px) {.ch_858883{}} @media only screen and (max-width: 576px) {.ch_858883{}}">
+                                Investors Token have tangible use cases </div>
+                            <div style="font-size: 18px;color: #aab2cd;line-height: 30px;text-align: left"
+                                class="ch_167741 list-marker f-catamaran fw400 vc_custom_heading vc_custom_1539210623984"
+                                data-res-css=" @media only screen and (max-width: 992px) {.ch_167741{}} @media only screen and (max-width: 768px) {.ch_167741{}} @media only screen and (max-width: 576px) {.ch_167741{}}">
+                                Investors are rewarded for investments on every transactions</div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-offset-1 vc_col-lg-6 vc_col-md-6 vc_col-xs-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <div class="wpb_single_image wpb_content_element vc_align_left  vc_custom_1542275894911 "
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1542275894911{margin-top: 50px !important;margin-bottom: 50px !important;}} @media only screen and (max-width: 576px) {.vc_custom_1542275894911{margin-bottom: 20px !important;}}">
+                                <figure class="wpb_wrapper vc_figure">
+                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img width="558"
+                                            height="504"
+                                            src="/about-img.png"
+                                            class="vc_single_image-img attachment-full" alt=""
+                                            srcset="/about-img.png 558w, /about-img-300x271.png 300w"
+                                            sizes="(max-width: 558px) 100vw, 558px" /></div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div id="about_parallax_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822736916 bg-center-top overflow_visible zindex-1 vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img
+                            src="/about-bg.png"
+                            style=" width:100vw; min-width:1680px; bottom:-500px; left:0;" data-jarallax-element="40"
+                            alt="" class="absolute__bg parallax__img"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div id="services_background_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822727943 bg-center-top overflow_visible zindex-1 vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img
+                            src="/services-bg-1.png"
+                            style=" width:100%; min-width:1680px; height:auto; top:0; left:50%;" alt=""
+                            class="absolute__bg horizontal-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div class="container zindex1">
+            <div id="services" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1541377802548 overflow_visible zindex1 vc_row-has-fill"
+                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1541377802548{padding-top: 100px !important;}} @media only screen and (max-width: 768px) {.vc_custom_1541377802548{padding-top: 60px !important;}}">
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <h4 style="color: #545c79;text-align: center"
+                                class="ch_869570 normal vc_custom_heading vc_custom_1541311798663"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541311798663{margin-bottom: 15px !important;}} @media only screen and (max-width: 992px) {.ch_869570{}} @media only screen and (max-width: 768px) {.ch_869570{}} @media only screen and (max-width: 576px) {.ch_869570{}}">
+                                AWESOME Features</h4>
+                            <h2 style="text-align: center" class="ch_47989 vc_custom_heading vc_custom_1541311811566"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541311811566{margin-bottom: 35px !important;}} @media only screen and (max-width: 992px) {.ch_47989{}} @media only screen and (max-width: 768px) {.ch_47989{}} @media only screen and (max-width: 576px) {.ch_47989{}}">
+                                What we got?</h2>
+                            <div class="section-services">
+                                <div class="services__items">
+                                    <div class="services__left">
+                                        <div data-aos="fade-up" class="service">
+                                            <div class="service__bg"
+                                                style="background-color: #e85f70; box-shadow: 0 0 51px rgba(232, 95, 112, 0.74); box-shadow: 0 0 51px rgba(232, 95, 112, 0.74);">
+                                            </div><img
+                                                src="/service-icon-1-1.svg"
+                                                alt="service-icon-1-1.svg">
+                                            <div class="service__title">Token Holders Reward</div>
+                                        </div>
+                                        <div data-aos="fade-up" data-aos-delay="200" class="service">
+                                            <div class="service__bg"
+                                                style="background-color: #fa8936; background-image: linear-gradient(-234deg, #ea9d64 0%, #fa8936 100%); box-shadow: 0 0 51px rgba(250, 137, 54, 0.74);">
+                                            </div><img
+                                                src="/service-icon-2-1.svg"
+                                                alt="service-icon-2-1.svg">
+                                            <div class="service__title">NFT Mobile App</div>
+                                        </div>
+                                    </div>
+                                    <div class="services__right">
+                                        <div data-aos="fade-up" data-aos-delay="400" class="service">
+                                            <div class="service__bg"
+                                                style="background-image: linear-gradient(-234deg, #6ae472 0%, #4bc253 100%); box-shadow: 0 0 51px rgba(75, 194, 83, 0.74);">
+                                            </div><img
+                                                src="/service-icon-3-1.svg"
+                                                alt="service-icon-3-1.svg">
+                                            <div class="service__title">Cross-Chain</div>
+                                        </div>
+                                        <div data-aos="fade-up" data-aos-delay="600" class="service">
+                                            <div class="service__bg"
+                                                style="background-color: #0090d5; background-image: linear-gradient(-234deg, #29aceb 0%, #0090d5 100%); box-shadow: 0 0 51px rgba(0, 144, 213, 0.74);">
+                                            </div><img
+                                                src="/service-icon-4-1.svg"
+                                                alt="service-icon-4-1.svg">
+                                            <div class="service__title">C2B Wallet App</div>
+                                        </div>
+                                    </div>
+                                </div><img
+                                    src="/services-bg-1.png"
+                                    class="services__bg" alt="services-bg-1.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div id="timeline_background_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822717725 bg-center-top overflow_visible zindex-1 vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12 vc_hidden-sm vc_hidden-xs">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img
+                            src="/road_map.png"
+                            style=" top:300px; right:75%; opacity:0.1;" alt="" class="absolute__bg"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div class="container zindex1">
+            <div id="timeline" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822567958 bg-left-center overflow_visible zindex1 vc_row-has-fill vc_row-o-content-middle vc_row-flex"
+                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1540822567958{padding-top: 100px !important;padding-bottom: 100px !important;}} @media only screen and (max-width: 768px) {.vc_custom_1540822567958{padding-top: 60px !important;padding-bottom: 60px !important;}}">
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <h4 style="color: #545c79;text-align: center"
+                                class="ch_174815 normal vc_custom_heading vc_custom_1541311846214"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541311846214{margin-bottom: 15px !important;}} @media only screen and (max-width: 992px) {.ch_174815{}} @media only screen and (max-width: 768px) {.ch_174815{}} @media only screen and (max-width: 576px) {.ch_174815{}}">
+                                THE VOLTERRA FUTURE</h4>
+                            <h2 style="text-align: center" class="ch_222994 vc_custom_heading vc_custom_1541311857087"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541311857087{margin-bottom: 35px !important;}} @media only screen and (max-width: 992px) {.ch_222994{}} @media only screen and (max-width: 768px) {.ch_222994{}} @media only screen and (max-width: 576px) {.ch_222994{}}">
+                                Road Map</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <div class="row">
+                                <div class="col-lg-6 offset-lg-4 col-sm-8 offset-sm-4">
+                                    <div class="road road-2 ">
+                                        <div class="road__item road__item-active">
+                                            <div class="road__item-metka"></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title">Phase-1 2021</div>
+                                                <p>We launch our marketing strategy, Airdrop system, and community development.  </p>
+                                            </div>
+                                        </div>
+                                        <div class="road__item">
+                                            <div class=""></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title"> </div>
+                                                <p>Launch presale contract and presale project commences with targetted Hardcap of 800 $BNB and Softcap of 500 $BNB </p>
+                                            </div>
+                                        </div>
+                                        <div class="road__item">
+                                            <div class="road__item-metka"></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title">Phase-2 2022</div>
+                                                <p>Presale ends and Distribution of Airdrop commences</p>
+                                            </div>
+                                        </div>
+                                        <div class="road__item">
+                                            <div class=""></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title"></div>
+                                                <p>Public sale Begins</p>
+                                            </div>
+                                        </div>
+                                        <div class="road__item ">
+                                            <div class="road__item-metka"></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title">Phase-3 2022</div>
+                                                <p>Coin Market Cap Listing, Coingecko Listing, and listing on investors trusted and potential exchanges</p>
+                                            </div>
+                                        </div>
+                                        <div class="road__item">
+                                            <div class=""></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title"></div>
+                                                <p>Partnership building with successful blockchain industries</p>
+                                            </div>
+                                        </div>
+                                        <div class="road__item">
+                                            <div class=""></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title"></div>
+                                                <p>Launching of Volterra NFT Volterra NFT (LMC) [Volterra Live Media Capture] is a new realistic and interactive way to NFT acquisition. More information on Whitepaper.</p>
+                                            </div>
+                                        </div>
+                                        <div class="road__item">
+                                            <div class="road__item-metka"></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title">Phase-4 2022</div>
+                                                <p>Launching of C2B Payment Wallet. More information on Whitepaper.</p>
+                                            </div>
+                                        </div>
+                                        <div class="road__item">
+                                            <div class=""></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title"></div>
+                                                <p>Global expansion of cohorts for blockchain experts and enthusiast.</p>
+                                            </div>
+                                        </div>
+                                        <div class="road__item">
+                                            <div class="road__item-metka"></div>
+                                            <div class="road__item-content">
+                                                <div class="road__item-title">Phase-5</div>
+                                                <p>More innovations launching</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div id="logo_background_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822699639 bg-center-top overflow_visible zindex-1 vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img
+                            src="/partenrs-bg.png"
+                            style=" width:100%; min-width:1680px; height:auto; top:-75px; left:50%;" alt=""
+                            class="absolute__bg horizontal-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div class="container zindex1">
+            <div id="logo" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822689443 bg-right-top overflow_visible zindex1 vc_row-has-fill">
+                <div
+                    class="wpb_animate_when_almost_visible wpb_fadeInUp fadeInUp wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid vc_custom_1539274309047 vc_row-has-fill">
+                                <div class="wpb_column vc_column_container vc_col-sm-4 vc_col-lg-3 vc_col-md-3 vc_col-xs-6"
+                                    data-res-css=" @media only screen and (max-width: 576px) {.vc_custom_1542275958714{margin-bottom: 30px !important;}}">
+                                    <div class="vc_column-inner vc_custom_1542275958714">
+                                        <div class="wpb_wrapper ">
+                                            <div
+                                                class="wpb_single_image wpb_content_element vc_align_center  vc_custom_1540093414601 same_height">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img
+                                                            width="147" height="54"
+                                                            src="/labs-h.png"
+                                                            class="vc_single_image-img attachment-full" alt="" /></div>
+                                                </figure>
+                                            </div>
+                                            <p style="font-size: 14px;color: #aab2cd;text-align: center"
+                                                class="ch_940365 fw900 vc_custom_heading"
+                                                data-res-css=" @media only screen and (max-width: 992px) {.ch_940365{}} @media only screen and (max-width: 768px) {.ch_940365{}} @media only screen and (max-width: 576px) {.ch_940365{}}.ch_940365{letter-spacing:1.4px;}">
+                                                Future Partner</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpb_column vc_column_container vc_col-sm-4 vc_col-lg-3 vc_col-md-3 vc_col-xs-6"
+                                    data-res-css=" @media only screen and (max-width: 576px) {.vc_custom_1542275967529{margin-bottom: 30px !important;}}">
+                                    <div class="vc_column-inner vc_custom_1542275967529">
+                                        <div class="wpb_wrapper ">
+                                            <div
+                                                class="wpb_single_image wpb_content_element vc_align_center  vc_custom_1540093420346 same_height">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img
+                                                            width="119" height="65"
+                                                            src="/drivenx-1-web.png"
+                                                            class="vc_single_image-img attachment-full" alt="" /></div>
+                                                </figure>
+                                            </div>
+                                            <p style="font-size: 14px;color: #aab2cd;text-align: center"
+                                                class="ch_789168 fw900 vc_custom_heading"
+                                                data-res-css=" @media only screen and (max-width: 992px) {.ch_789168{}} @media only screen and (max-width: 768px) {.ch_789168{}} @media only screen and (max-width: 576px) {.ch_789168{}}.ch_789168{letter-spacing:1.4px;}">
+                                                Future Partner</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-4 vc_col-lg-3 vc_col-md-3 vc_col-xs-6">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div
+                                                class="wpb_single_image wpb_content_element vc_align_center  vc_custom_1540093845457 same_height">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img
+                                                            width="147" height="35"
+                                                            src="/logo2.png"
+                                                            class="vc_single_image-img attachment-full" alt="" /></div>
+                                                </figure>
+                                            </div>
+                                            <div
+                                                class="wpb_single_image wpb_content_element vc_align_center  vc_custom_1540093302807 ">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <p style="font-size: 14px;color: #aab2cd;text-align: center"
+                                                    class="ch_789168 fw900 vc_custom_heading"
+                                                    data-res-css=" @media only screen and (max-width: 992px) {.ch_789168{}} @media only screen and (max-width: 768px) {.ch_789168{}} @media only screen and (max-width: 576px) {.ch_789168{}}.ch_789168{letter-spacing:1.4px;}">
+                                                    Future Partner</p>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-3 vc_col-md-3 vc_col-xs-6">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div
+                                                class="wpb_single_image wpb_content_element vc_align_center  vc_custom_1540093440257 same_height">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img
+                                                            width="162" height="49"
+                                                            src="/wordmark_white.8a280231.svg"
+                                                            class="vc_single_image-img attachment-full" alt="" /></div>
+                                                </figure>
+                                            </div>
+                                            <p style="font-size: 14px;color: #aab2cd;text-align: center"
+                                                class="ch_211147 fw900 vc_custom_heading"
+                                                data-res-css=" @media only screen and (max-width: 992px) {.ch_211147{}} @media only screen and (max-width: 768px) {.ch_211147{}} @media only screen and (max-width: 576px) {.ch_211147{}}.ch_211147{letter-spacing:1.4px;}">
+                                                Future Partner</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div id="cases_background_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822679962 bg-center-top overflow_visible zindex-1 vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img
+                            src="/cases-bg.png"
+                            style=" width:auto; height:auto; top:50px; left:55%;" alt=""
+                            class="absolute__bg horizontal-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div id="cases_background_right_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822668810 bg-center-top overflow_visible zindex-1 vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12 vc_hidden-sm vc_hidden-xs">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img
+                            src="/cases-imgs.png"
+                            style=" width:auto; height:auto; top:0; right:0;" alt="" class="absolute__bg lg-off"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div class="container zindex1">
+            <div id="cases" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1541312560379 bg-right-top overflow_visible zindex1 vc_row-has-fill"
+                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1541312560379{padding-top: 100px !important;padding-bottom: 100px !important;}} @media only screen and (max-width: 768px) {.vc_custom_1541312560379{padding-top: 60px !important;padding-bottom: 60px !important;}}">
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <h4 style="color: #545c79;text-align: center"
+                                class="ch_14995 normal vc_custom_heading vc_custom_1541312111507"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541312111507{margin-bottom: 15px !important;}} @media only screen and (max-width: 992px) {.ch_14995{}} @media only screen and (max-width: 768px) {.ch_14995{}} @media only screen and (max-width: 576px) {.ch_14995{}}">
+                                VOLT TOKEN</h4>
+                            <h2 style="text-align: center" class="ch_996120 vc_custom_heading vc_custom_1541312123254"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541312123254{margin-bottom: 35px !important;}} @media only screen and (max-width: 992px) {.ch_996120{}} @media only screen and (max-width: 768px) {.ch_996120{}} @media only screen and (max-width: 576px) {.ch_996120{}}">
+                                Use Cases</h2>
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="cases__item" data-aos="fade-right"><img
+                                                    src="/cases-icon-1.png"
+                                                    class="cases__item-icon" alt="cases-icon-1.png">
+                                                <div class="cases__item-content">
+                                                    <div class="cases__item-title">VOLT NFT (LMC)</div>
+                                                    <P class="cases__item-text">Mint and trade NFT's via mobile app using the Volterra Token as means of exchange</P>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="cases__item" data-aos="fade-left" data-aos-delay="200"><img
+                                                    src="/cases-icon-2.png"
+                                                    class="cases__item-icon" alt="cases-icon-2.png">
+                                                <div class="cases__item-content">
+                                                    <div class="cases__item-title">Earn passive income</div>
+                                                    <P class="cases__item-text">Enjoy the power of Defi as you keep holding/investing into the ecosystem</P>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="cases__item" data-aos="fade-right"><img
+                                                    src="/cases-icon-3.png"
+                                                    class="cases__item-icon" alt="cases-icon-3.png">
+                                                <div class="cases__item-content">
+                                                    <div class="cases__item-title">Cohort</div>
+                                                    <P class="cases__item-text">Join thousands of blockchain experts and enthusiast in creating and developing projects powered by the Volt Token</P>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="cases__item" data-aos="fade-left" data-aos-delay="200"><img
+                                                    src="/cases-icon-2.png"
+                                                    class="cases__item-icon" alt="cases-icon-2.png">
+                                                <div class="cases__item-content">
+                                                    <div class="cases__item-title">C2B Wallet</div>
+                                                    <P class="cases__item-text">Make and recieve payments with the Volterra payment wallet designed to boost your business confidence in blockchain.</P>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="cases__item" data-aos="fade-right"><img
+                                                    src="/cases-icon-5.png"
+                                                    class="cases__item-icon" alt="cases-icon-5.png">
+                                                <div class="cases__item-content">
+                                                    <div class="cases__item-title">Staking</div>
+                                                    <P class="cases__item-text">We will use the "Proof-Of-Stake" mechanism to make this process easy for investors.</P>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="cases__item" data-aos="fade-left" data-aos-delay="200"><img
+                                                    src="/cases-icon-6.png"
+                                                    class="cases__item-icon" alt="cases-icon-6.png">
+                                                <div class="cases__item-content">
+                                                    <div class="cases__item-title">Farming</div>
+                                                    <P class="cases__item-text">Yield farming known as "liquidity mining" will help holders to generate more DVX in their wallets while they secure the liquidity.</P>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-wrapper btn--center"><a href="#0"
+                                    class="btn btn-cases  btn--orange btn--big btn--uppercase"><span>Join Presale</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div id="statistic_background_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1541312634664 bg-center-top overflow_visible zindex-1 vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img
+                            src="/data-bg-space.png"
+                            style=" width:100%; min-width:1680px; height:auto; top:-250px; left:50%;" alt=""
+                            class="absolute__bg horizontal-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div id="statistic" data-vc-full-width="true" data-vc-full-width-init="false" data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid overflow_visible zindex1 vc_row-no-padding vc_row-o-content-middle vc_row-flex">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper ">
+                        <div class="data" id="stat">
+                            <div class="container data__container">
+                                <div class="row">
+                                    <div class="col"><img
+                                            src="data-bg.png"
+                                            class="data__img" alt="data-bg.png">
+                                        <div class="counter__item counter__item-1">
+                                            <div class="counter__item-title">Holders</div>
+                                            <div class="counter counter__item-value numscroller">NaN</div>
+                                        </div>
+                                        <div class="counter__item counter__item-2">
+                                            <div class="counter__item-title">Marketcap</div>
+                                            <div class="counter counter__item-value numscroller">NaN</div>
+                                        </div>
+                                        <div class="counter__item counter__item-3">
+                                            <div class="counter__item-title">Price increase</div>
+                                            <div class="counter counter__item-value numscroller " data-percantage="+">
+                                                NaN</div>
+                                        </div>
+                                        <div class="counter__item counter__item-4">
+                                            <div class="counter__item-title">Token in Circulation</div>
+                                            <div class="counter counter__item-value numscroller">NaN</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div class="container zindex1">
+
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div class="container zindex1">
+            <div id="token" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822807336 bg-left-center overflow_visible zindex1 vc_row-has-fill vc_row-o-content-middle vc_row-flex"
+                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1540822807336{padding-top: 100px !important;padding-bottom: 100px !important;}} @media only screen and (max-width: 768px) {.vc_custom_1540822807336{padding-top: 60px !important;padding-bottom: 60px !important;}}">
+                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-6 vc_col-md-6 vc_col-has-fill">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper vc_custom_1540096276475"><img
+                                src="/token-img.png"
+                                style=" width:auto; height:auto; top:60px; right:10%;" alt=""
+                                class="absolute__bg md-off"></div>
+                    </div>
+                </div>
+                <div
+                    class="wpb_animate_when_almost_visible wpb_fadeInRight fadeInRight wpb_column vc_column_container vc_col-sm-12 vc_col-lg-6 vc_col-md-6">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <h4 style="color: #545c79;text-align: left"
+                                class="ch_748197 style-tire vc_custom_heading vc_custom_1541312981479"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541312981479{margin-bottom: 15px !important;}} @media only screen and (max-width: 992px) {.ch_748197{}} @media only screen and (max-width: 768px) {.ch_748197{}} @media only screen and (max-width: 576px) {.ch_748197{}}">
+                                ABOUT TOKEN</h4>
+                            <h2 style="text-align: left" class="ch_251683 vc_custom_heading vc_custom_1541312991578"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541312991578{margin-bottom: 30px !important;}} @media only screen and (max-width: 992px) {.ch_251683{}} @media only screen and (max-width: 768px) {.ch_251683{}} @media only screen and (max-width: 576px) {.ch_251683{}}">
+                                Token Sale</h2>
+                            <ul class="token__info-list">
+                                <li><span>Token name:</span>Volterra Token</li>
+                                <li><span>Ticker Symbol:</span>VOLT</li>
+                                <li><span>Starting Price Pre-sale:</span>VOLT per USD 0.0425</li>
+                                <li><span>Total Token for Sale:</span>10 million (Presale limit)</li>
+                                <li><span>Fundraising Goal:</span>800 BNB</li>
+                                <li><span>Minimum Purchase:</span>0.1 BNB</li>
+                                <li><span>Maximum Purchase:</span>2 BNB</li>
+                            </ul>
+                            <div style="font-size: 25px;color: #ffffff;line-height: 25px;text-align: left"
+                                class="ch_740522 f-raleway fw700 vc_custom_heading vc_custom_1539321476183"
+                                data-res-css=" @media only screen and (max-width: 992px) {.ch_740522{}} @media only screen and (max-width: 768px) {.ch_740522{}} @media only screen and (max-width: 576px) {.ch_740522{}}">
+                                General description</div>
+                            <p style="color: #aab2cd;line-height: 30px;text-align: left"
+                                class="ch_658560 fw400 vc_custom_heading vc_custom_1539316549538"
+                                data-res-css=" @media only screen and (max-width: 992px) {.ch_658560{}} @media only screen and (max-width: 768px) {.ch_658560{}} @media only screen and (max-width: 576px) {.ch_658560{}}">
+                                Supply is 100,000,000 This modification gives us a more professional
+appearance, and we won't have to make burns, which may be a hassle at times.
+This enhancement will also boost the potential of the project as marketcap increases.</p>
+                            <p style="color: #aab2cd;line-height: 30px;text-align: left"
+                                class="ch_747144 fw400 vc_custom_heading vc_custom_1539316571544"
+                                data-res-css=" @media only screen and (max-width: 992px) {.ch_747144{}} @media only screen and (max-width: 768px) {.ch_747144{}} @media only screen and (max-width: 576px) {.ch_747144{}}">
+                                The  contract includes several new security features, one of which is called
+Reentrancy guard, and it will entirely protect us against the Reentrancy exploit,
+which has recently been utilized on several popular projects and caused a lot of
+damage to investors.</p>
+                            <div class="btn-wrapper btn--left"><a href="#0"
+                                    class="btn btn-cases  btn--orange btn--small btn--uppercase "><span>Buy
+                                        Token</span></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div id="document_background_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822815998 bg-center-top overflow_visible zindex-1 vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img
+                            src="/docs-bg.png"
+                            style=" width:100%; min-width:1748px; top:-150px; left:0;" data-jarallax-element="40"
+                            data-type="" data-speed="" alt="" class="absolute__bg parallax__img"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+        <div class="container zindex1">
+            <div id="document" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid overflow_visible zindex1 vc_row-o-content-middle vc_row-flex">
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <h4 style="color: #545c79;text-align: left"
+                                class="ch_653749 style-tire vc_custom_heading vc_custom_1541313032537"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541313032537{margin-bottom: 15px !important;}} @media only screen and (max-width: 992px) {.ch_653749{}} @media only screen and (max-width: 768px) {.ch_653749{}} @media only screen and (max-width: 576px) {.ch_653749{}}">
+                                OUR FILES</h4>
+                            <h2 style="text-align: left" class="ch_500659 vc_custom_heading vc_custom_1541313043433"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541313043433{margin-bottom: 35px !important;}} @media only screen and (max-width: 992px) {.ch_500659{}} @media only screen and (max-width: 768px) {.ch_500659{}} @media only screen and (max-width: 576px) {.ch_500659{}}">
+                                Documents</h2>
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                                <script>
+                                    function papers() {
+                                      alert("This Document is not ready yet");
+                                    }
+                                    </script>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-3 vc_col-md-3 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="doc_wrapper" data-aos="fade-up"><a class="doc" href="#0"
+                                                    title="">
+                                                    <div class="doc__content"><img
+                                                            src="/pdf.svg"
+                                                            alt="pdf.svg">
+                                                        <div class="doc__title" >Lite paper</div>
+                                                    </div>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-3 vc_col-md-3 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="doc_wrapper" data-aos="fade-up" data-aos-delay="200"><a
+                                                    class="doc" href="#0" title="">
+                                                    <div class="doc__content"><img
+                                                            src="/pdf.svg"
+                                                            alt="pdf.svg">
+                                                        <div class="doc__title">White Paper</div>
+                                                    </div>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-3 vc_col-md-3 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="doc_wrapper" data-aos="fade-up" data-aos-delay="400"><a
+                                                    class="doc" href="#0" title="">
+                                                    <div class="doc__content"><img
+                                                            src="/pdf.svg"
+                                                            alt="pdf.svg">
+                                                        <div class="doc__title">Projects</div>
+                                                    </div>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-3 vc_col-md-3 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="doc_wrapper" data-aos="fade-up" data-aos-delay="600"><a
+                                                    class="doc" href="#0" title="">
+                                                    <div class="doc__content"><img
+                                                            src="/pdf.svg"
+                                                            alt="pdf.svg">
+                                                        <div class="doc__title">Business Profile</div>
+                                                    </div>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+        <div id="token_data" data-vc-full-width="true" data-vc-full-width-init="false" data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822839399 overflow_visible zindex1 vc_row-no-padding vc_row-o-content-middle vc_row-flex"
+            data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1540822839399{padding-top: 70px !important;}} @media only screen and (max-width: 768px) {.vc_custom_1540822839399{margin-bottom: 0px !important;padding-top: 30px !important;}}">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper ">
+                        <div class="data-token-section">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div
+                                            class="section-header section-header--animated section-header--medium-margin section-header--center">
+                                            <h4>Our data</h4>
+                                            <h2>Token Distribution</h2>
+                                            <div class="bg-title">Token Distribution</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row chart__row align-items-center">
+                                    <div class="col-lg-6">
+                                        <div class="chart"><img
+                                                src="/chart-bg.png"
+                                                class="chart__bg" alt="chart-bg.png">
+                                            <div class="chart__wrap" data-chart-brd="2" data-chart-brdclr="#1f2641"
+                                                data-chart-cutout="50"><canvas id="myChart" class="myChart" width="400"
+                                                    height="400"></canvas></div>
+                                        </div>
+                                    </div>
+                                    <div data-aos="fade-left" class="col-lg-6 token-data__animated-content">
+                                        <div class="chart__title">Allocation of funds</div>
+                                        <p class="chart__text">Total token supply - 100,000,000</p>
+                                        <ul class="chart__legend">
+                                            <li data-chart-label="MARKETING" data-chart-color="#ed804e"
+                                                data-chart-value="1"><span
+                                                    style="width: 1%;background-image: -webkit-gradient(linear,left top,right top,from(#ed8a4c),to(#ea485c));background-image: -webkit-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: -o-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: linear-gradient(to right,#ed8a4c 0,#ea485c 100%);"></span>1%
+                                                Marketing</li>
+                                            <li data-chart-label="Presale" data-chart-color="#e14251"
+                                                data-chart-value="10"><span
+                                                    style="width: 10%;background-image: -webkit-gradient(linear,left top,right top,from(#ed8a4c),to(#ea485c));background-image: -webkit-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: -o-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: linear-gradient(to right,#ed8a4c 0,#ea485c 100%);"></span>10%
+                                                Presale</li>
+                                            <li data-chart-label="Initial Public Sale" data-chart-color="#d047e4"
+                                                data-chart-value="8"><span
+                                                    style="width: 8%;background-image: -webkit-gradient(linear,left top,right top,from(#ed8a4c),to(#ea485c));background-image: -webkit-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: -o-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: linear-gradient(to right,#ed8a4c 0,#ea485c 100%);"></span>8%
+                                                Initial Public Sale</li>
+                                            <li data-chart-label="Airdrop campaign" data-chart-color="#77075d"
+                                                data-chart-value="5"><span
+                                                    style="width: 5%;background-image: -webkit-gradient(linear,left top,right top,from(#ed8a4c),to(#ea485c));background-image: -webkit-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: -o-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: linear-gradient(to right,#ed8a4c 0,#ea485c 100%);"></span>5%
+                                                Airdrop campaign</li>
+                                            <li data-chart-label="Reserved Tokens" data-chart-color="#ff457a"
+                                                data-chart-value="75"><span
+                                                    style="width: 75%;background-image: -webkit-gradient(linear,left top,right top,from(#ed8a4c),to(#ea485c));background-image: -webkit-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: -o-linear-gradient(left,#ed8a4c 0,#ea485c 100%);background-image: linear-gradient(to right,#ed8a4c 0,#ea485c 100%);"></span>75%
+                                                Reserved Tokens</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
+
+        <div class="container">
+            <div id="advisors" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1541318039114 bg-left-bottom vc_row-has-fill"
+                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1541318039114{padding-bottom: 60px !important;}} @media only screen and (max-width: 768px) {.vc_custom_1541318039114{padding-bottom: 20px !important;}} @media only screen and (max-width: 576px) {.vc_custom_1541318039114{padding-bottom: 20px !important;}}">
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid vc_custom_1541318919536"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541318919536{margin-bottom: 35px !important;}}">
+                                <div class="wpb_column vc_column_container vc_col-sm-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <h4 style="text-align: center"
+                                                class="ch_483079 vc_custom_heading vc_custom_1541318941792"
+                                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541318941792{margin-bottom: 15px !important;}} @media only screen and (max-width: 992px) {.ch_483079{}} @media only screen and (max-width: 768px) {.ch_483079{}} @media only screen and (max-width: 576px) {.ch_483079{}}">
+                                                Family</h4>
+                                            <h2 style="text-align: center" class="ch_123127 vc_custom_heading"
+                                                data-res-css=" @media only screen and (max-width: 992px) {.ch_123127{}} @media only screen and (max-width: 768px) {.ch_123127{}} @media only screen and (max-width: 576px) {.ch_123127{}}">
+                                                Team</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="advisor" data-aos="fade-right"><a href="https://www.linkedin.com/in/michael-jimoh-hack/" title=""
+                                                    class="advisor__img">
+                                                    <div class="advisor__bg  vc_custom_1540019071154"></div><img
+                                                        src="/michael.jpg"
+                                                        class="advisor__img" alt="advisor-avatar-1-1.jpg">
+                                                    <div class="advisor__sn"><img
+                                                            src="/linkedin.svg"
+                                                            alt="facebook.svg"></div>
+                                                </a>
+                                                <div class="advisor__content">
+                                                    <div class="advisor__title">Michael Jimoh</div>
+                                                    <div class="advisor__post">Volterra President</div>
+                                                    <p class="advisor__text">Huobi Campus Ambassador, Blockchain Expert, Tech Coach Mentor and Tech Enthusiast.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="advisor" data-aos="fade-left" data-aos-delay="200"><a href="#0"
+                                                    title="" class="advisor__img">
+                                                    <div class="advisor__bg  vc_custom_1540019082512"></div><img
+                                                        src="/ehiz.jpg"
+                                                        class="advisor__img" alt="advisor-avatar-4-1.jpg">
+                                                    <div class="advisor__sn"><img
+                                                            src="/linkedin.svg"
+                                                            alt="linkedin.svg"></div>
+                                                </a>
+                                                <div class="advisor__content">
+                                                    <div class="advisor__title">Ehiz</div>
+                                                    <div class="advisor__post">Volterra Advisor</div>
+                                                    <p class="advisor__text">Pro Crypto Analyst, Statistic and marketing expert, Crypto mentor and blockchain expert.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="advisor" data-aos="fade-right"><a href="https://www.linkedin.com/in/hao-wu-77614539/" title=""
+                                                    class="advisor__img">
+                                                    <div class="advisor__bg  vc_custom_1540019091757"></div><img
+                                                        src="/hao.jpg"
+                                                        class="advisor__img" alt="advisor-avatar-3-1.jpg">
+                                                    <div class="advisor__sn"><img
+                                                            src="/linkedin.svg"
+                                                            alt="google-plus.svg"></div>
+                                                </a>
+                                                <div class="advisor__content">
+                                                    <div class="advisor__title">Hao Wu</div>
+                                                    <div class="advisor__post">Investor and Advisor</div>
+                                                    <p class="advisor__text">Founder BC Blockchain, Marketing Director the Xchange, Kloak Information Technologies Project Director.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="advisor" data-aos="fade-left" data-aos-delay="200"><a href="https://www.linkedin.com/in/timmypelumy/"
+                                                    title="" class="advisor__img">
+                                                    <div class="advisor__bg  vc_custom_1540019103184"></div><img
+                                                        src="/timm.jpeg"
+                                                        class="advisor__img" alt="advisor-avatar-1-1.jpg">
+                                                    <div class="advisor__sn"><img
+                                                            src="/linkedin.svg"
+                                                            alt="facebook.svg"></div>
+                                                </a>
+                                                <div class="advisor__content">
+                                                    <div class="advisor__title">Timileyin Pelumi</div>
+                                                    <div class="advisor__post">Product Developer</div>
+                                                    <p class="advisor__text">Fullstack Developer, React, Django, Python, C, Solidity</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="advisor" data-aos="fade-left" data-aos-delay="200"><a href="https://t.me/iPedroLB"
+                                                    title="" class="advisor__img">
+                                                    <div class="advisor__bg  vc_custom_1540019103184"></div><img
+                                                        src="/Pedro.jpg"
+                                                        class="advisor__img" alt="advisor-avatar-1-1.jpg">
+                                                    <div class="advisor__sn"><img
+                                                            src="/telegram.png"
+                                                            alt="facebook.svg"></div>
+                                                </a>
+                                                <div class="advisor__content">
+                                                    <div class="advisor__title">Pedro</div>
+                                                    <div class="advisor__post">Volterra Blockchain Developer</div>
+                                                    <p class="advisor__text">Crypto Expert, Blockchain Developer</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="advisor" data-aos="fade-left" data-aos-delay="200"><a href="https://t.me/Marcel9898"
+                                                    title="" class="advisor__img">
+                                                    <div class="advisor__bg  vc_custom_1540019103184"></div><img
+                                                        src="/Unknown.jpg"
+                                                        class="advisor__img" alt="advisor-avatar-1-1.jpg">
+                                                    <div class="advisor__sn"><img
+                                                            src="/telegram.png"
+                                                            alt="facebook.svg"></div>
+                                                </a>
+                                                <div class="advisor__content">
+                                                    <div class="advisor__title">Marcel</div>
+                                                    <div class="advisor__post">Volterra MArketter</div>
+                                                    <p class="advisor__text">Project Marketer, expert analyst, SEO Expert.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
         </div>
 
 
-        <header style='background-color:rgb(31,38,65)'
-                class=' p-1  sticky top-0 left-0 right-0 z-20'>
-            <div class='flex flex-row flex-nowrap justify-between content-center'>
-                <img src='/logo.jpg'
-                     width='50'
-                     height="50"
-                     class=" object-contain self-center float-left ml-4 mt-2 rounded-full"
-                     alt='Volterra logo' />
-
-                <div class='w-3/5 self-center'>
-
-                    <div class='md:hidden flex flex-row justify-end p-2'>
-                        <i id='showNav'
-                           class='bi-justify-left hover:text-blue-300 text-4xl text-white'></i>
-                    </div>
-                    <ul id='nav'
-                        style='font-family: raleway;background-color: rgb(31,38,65);'
-                        class='hidden flex-col    fixed space-y-8 md:space-y-0 top-16  pt-8 md:pt-0 left-0 justify-center  right-0 bottom-0 z-10 md:static md:flex md:flex-row flex-nowrap md:justify-evenly content-center font-bold text-white'>
-                        <li class='hover:scale-105 transform transition text-center'> <a href=''> Home </a></li>
-                        <li class='hover:scale-105 transform transition text-center'> <a href=''> Project </a>
-                        </li>
-                        <li class='hover:scale-105 transform transition text-center'> <a href=''> Token </a>
-                        </li>
-                        <li class='hover:scale-105 transform transition text-center'> <a href=''> Roadmap </a>
-                        </li>
-                        <li>
-                            <i id='loader'
-                               class='hidden bi-circle-fill text-3xl z-30 text-white animate-ping'></i>
-
-                        </li>
-
-                        <li class='text-center md:hidden'> <i
-                               onclick="this.parentElement.parentElement.style.display = 'none'"
-                               class='bi-x-circle text-2xl '></i></li>
-
-                    </ul>
-
-                </div>
-            </div>
 
 
-        </header>
-
-        <main class='md:ml-16'>
-
-            <div class='mt-16 '>
-                <h1 class='text-4xl md:text-8xl px-6 text-left font-bold capitalize text-white'>
-                    <span class='text-blue-400 animate-fade'>
-                        Volterra</span> Airdrop
-                </h1>
-                <img src='/bg.png'
-                     class='float-right inline-block ml-12'
-                     alt='bg'>
-            </div>
-
-
-
-            <div class='md:ml-16 p-6 mt-8 md:mt-16'>
-                <!-- <p style='font-family:Quicksand'
-                   class=' md:text-left text-white text-sm md:text-2xl '> <span class=''> Refer
-                        link:</span>
-                    &nbsp;&nbsp;&nbsp; <button
-                            class='inline-block p-1 px-2 text-center  text-xs  md:text-lg  text-white hover:bg-gray-600 bg-gray-500 ring-2 ring-gray-500'>
-                        Generate
-                        referral link</button> </p> -->
-                <div>
-                    <div class='px-6 py-1'>
-                        <label style='font-family:Quicksand'
-                               id='labelBsc'
-                               class='text-white inline-block text-xl md:text-2xl text-center md:text-left p-4 md:font-bold'>
-                            Enter
-                            your BSC
-                            address:
-                        </label>
-                        <input type='text'
-                               name='chainAddr'
-                               class='outline-none focus:ring-2 ring-offset-2 caret-blue-400  rounded px-4 py-2 md:py-4 md:px-12 block md:inline-block mx-auto'
-                               minlength='48'
-                               maxlength='48'
-                               id='bscForm'
-                               placeholder="BSC Address"
-                               required />
-
-
-                        <button id='bsc'
-                                style='background-color:rgb(57, 82, 186);font-family:Raleway'
-                                class='block py-2 px-4 font-bold text-center mt-8 mb-4 text-lg hover:border border-white rounded  text-white  mx-auto'>
-                            Claim airdrop</button>
-
-
-                        <button id='showBoard'
-                                style='background-color:rgb(57, 82, 186);font-family:Raleway'
-                                class='hidden py-2 px-4 font-bold text-center mt-8 mb-4 text-base  md:text-lg hover:border border-white rounded  text-white  mx-auto'>
-                            <span id='showBoardText'> *** </span> &nbsp; <i title='Copy link'
-                               id='copyText'
-                               class='bi-clipboard-plus ml-2   text-white'></i> </button>
+        <!-- <div class="container zindex1">
+            <div id="press_about" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1541378397691 overflow_visible zindex1 vc_row-o-content-middle vc_row-flex"
+                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1541378397691{padding-top: 100px !important;padding-bottom: 70px !important;}} @media only screen and (max-width: 768px) {.vc_custom_1541378397691{padding-top: 60px !important;padding-bottom: 30px !important;}} @media only screen and (max-width: 576px) {.vc_custom_1541378397691{padding-top: 60px !important;padding-bottom: 30px !important;}}">
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <h4 style="text-align: center" class="ch_528805 vc_custom_heading vc_custom_1541319061802"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541319061802{margin-bottom: 15px !important;}} @media only screen and (max-width: 992px) {.ch_528805{}} @media only screen and (max-width: 768px) {.ch_528805{}} @media only screen and (max-width: 576px) {.ch_528805{}}">
+                                PRESS ABOUT US</h4>
+                            <h2 style="text-align: center" class="ch_980750 vc_custom_heading vc_custom_1541319116147"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541319116147{margin-bottom: 35px !important;}} @media only screen and (max-width: 992px) {.ch_980750{}} @media only screen and (max-width: 768px) {.ch_980750{}} @media only screen and (max-width: 576px) {.ch_980750{}}">
+                                Press About Volterra</h2>
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-3 vc_col-md-3 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="doc_wrapper" data-aos="fade-up"><a class="doc title--none"
+                                                    href="#" title="">
+                                                    <div class="doc__content"><img
+                                                            src=""
+                                                            alt="press-logo-1-1.png"></div>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-3 vc_col-md-3 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="doc_wrapper" data-aos="fade-up" data-aos-delay="200"><a
+                                                    class="doc title--none" href="#" title="">
+                                                    <div class="doc__content"><img
+                                                            src=""
+                                                            alt="press-logo-2-1.png"></div>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-3 vc_col-md-3 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="doc_wrapper" data-aos="fade-up" data-aos-delay="400"><a
+                                                    class="doc title--none" href="#" title="">
+                                                    <div class="doc__content"><img
+                                                            src=""
+                                                            alt="press-logo-3.png"></div>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-3 vc_col-md-3 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="doc_wrapper" data-aos="fade-up" data-aos-delay="600"><a
+                                                    class="doc title--none" href="#" title="">
+                                                    <div class="doc__content"><img
+                                                            src=""
+                                                            alt="press-logo-4.png"></div>
+                                                </a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div> -->
+        <!-- <div class="container zindex1">
+            <div id="partners" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid overflow_visible zindex1">
+                <div class="wpb_column vc_column_container vc_col-sm-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper ">
+                            <h4 style="text-align: left"
+                                class="ch_618233 style-tire md-style-normal xs-style-normal vc_custom_heading vc_custom_1541319145954"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541319145954{margin-bottom: 15px !important;}} @media only screen and (max-width: 992px) {.ch_618233{text-align:center!important;}} @media only screen and (max-width: 768px) {.ch_618233{}} @media only screen and (max-width: 576px) {.ch_618233{}}">
+                                OUR FRIENDS</h4>
+                            <h2 style="text-align: left" class="ch_892689 vc_custom_heading vc_custom_1541319156451"
+                                data-res-css=" @media only screen and (max-width: 768px) {.vc_custom_1541319156451{margin-bottom: 35px !important;}} @media only screen and (max-width: 992px) {.ch_892689{text-align:center!important;}} @media only screen and (max-width: 768px) {.ch_892689{}} @media only screen and (max-width: 576px) {.ch_892689{}}">
+                                Partners</h2>
+                            <div class="vc_row wpb_row vc_inner vc_row-fluid">
+                                <div class="wpb_column vc_column_container vc_col-sm-4 vc_col-lg-1/5 vc_col-md-1/5 vc_col-xs-6"
+                                    data-res-css=" @media only screen and (max-width: 992px) {.{margin-bottom: 20px !important;}}">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="wpb_single_image wpb_content_element vc_align_left  vc_custom_1541319326086 md-center sm-right has_opacity"
+                                                data-opacity="0.4" data-hvr-opacity="0.8"
+                                                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1541319326086{margin-bottom: 20px !important;}}">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img
+                                                            width="147" height="54"
+                                                            src="/partners-logo-1-1.png"
+                                                            class="vc_single_image-img attachment-full" alt="" /></div>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-4 vc_col-lg-1/5 vc_col-md-1/5 vc_col-xs-6">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="wpb_single_image wpb_content_element vc_align_left  vc_custom_1541319471360 md-center sm-left has_opacity"
+                                                data-opacity="0.4" data-hvr-opacity="0.8"
+                                                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1541319471360{margin-bottom: 20px !important;}}">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img
+                                                            width="119" height="65"
+                                                            src="/partners-logo-2-1.png"
+                                                            class="vc_single_image-img attachment-full" alt="" /></div>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-4 vc_col-lg-1/5 vc_col-md-1/5 vc_col-xs-6">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="wpb_single_image wpb_content_element vc_align_left  vc_custom_1541319639122 md-center sm-right has_opacity"
+                                                data-opacity="0.4" data-hvr-opacity="0.8"
+                                                data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1541319639122{margin-bottom: 20px !important;}} @media only screen and (max-width: 768px) {.vc_custom_1541319639122{padding-top: 10px !important;}}">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img
+                                                            width="147" height="35"
+                                                            src="/partners-logo-3-1.png"
+                                                            class="vc_single_image-img attachment-full" alt="" /></div>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-1/5 vc_col-md-1/5 vc_col-xs-6"
+                                    data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1540104081259{margin-bottom: 20px !important;}}">
+                                    <div class="vc_column-inner vc_custom_1540104081259">
+                                        <div class="wpb_wrapper ">
+                                            <div class="wpb_single_image wpb_content_element vc_align_left  vc_custom_1541319380489 md-center sm-left has_opacity"
+                                                data-opacity="0.4" data-hvr-opacity="0.8">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img
+                                                            width="162" height="49"
+                                                            src="/partners-logo-4-1.png"
+                                                            class="vc_single_image-img attachment-full" alt="" /></div>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="wpb_column vc_column_container vc_col-sm-6 vc_col-lg-1/5 vc_col-md-1/5 vc_col-xs-12">
+                                    <div class="vc_column-inner ">
+                                        <div class="wpb_wrapper ">
+                                            <div class="wpb_single_image wpb_content_element vc_align_left  vc_custom_1541319392706 md-center sm-center has_opacity"
+                                                data-opacity="0.4" data-hvr-opacity="0.8">
+                                                <figure class="wpb_wrapper vc_figure">
+                                                    <div class="vc_single_image-wrapper   vc_box_border_grey"><img
+                                                            width="131" height="40"
+                                                            src="/partners-logo-5-1.png"
+                                                            class="vc_single_image-img attachment-full" alt="" /></div>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div> -->
+        <div id="contact_background_image" data-vc-full-width="true" data-vc-full-width-init="false"
+            data-vc-stretch-content="true"
+            class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822965299 bg-center-top overflow_visible vc_row-has-fill vc_row-no-padding">
+            <div class="wpb_column vc_column_container vc_col-sm-12">
+                <div class="vc_column-inner">
+                    <div class="wpb_wrapper "><img
+                            src="/subscribe-bg.png"
+                            style=" width:auto; height:auto; top:0; left:50%;" alt=""
+                            class="absolute__bg horizontal-center"></div>
+                </div>
+            </div>
+        </div>
+        <div class="vc_row-full-width vc_clearfix"></div>
 
-                <p style='font-family:Quicksand'
-                   class='md:w-4/5 xl:w-3/5 text-left text-white text-sm md:text-xl py-6'>
-                Submit your Bsc address to claim your airdrop. You get 200 Volts instantly. Earn more by
-                sharing your referral link, you will be rewarded with 5 Volts for every distinct invitee.You
-                can invite up to 50 persons, and the reward
-                can be up to 1000 VOLTERRA tokens. Your current earnings are shown below.
-                </p>
+        <div class="container">
+            <div id="custom_footer" data-vc-full-width="true" data-vc-full-width-init="false"
+                class="ult-responsive vc_row wpb_row vc_row-fluid vc_custom_1540822995896 vc_row-o-content-middle vc_row-flex">
+                <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-4 vc_col-md-4 vc_col-xs-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper vc_custom_1540822206129"
+                            data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1540822206129{margin-top: 0px !important;margin-bottom: 0px !important;}}">
+                            <a href="#0" class="footer-logo logo"><img
+                                    src="/2.png"
+                                    class="logo__img--big" alt="Logo_white.svg">
+                                <div class="logo__title">Volterra</div>
+                            </a>
+                            <div style="font-size: 14px;color: #545c79;line-height: 25px;text-align: left"
+                                class="ch_104970 f-catamaran vc_custom_heading vc_custom_1540103138302"
+                                data-res-css=" @media only screen and (max-width: 992px) {.ch_104970{text-align:center!important;}} @media only screen and (max-width: 768px) {.ch_104970{text-align:left!important;}} @media only screen and (max-width: 576px) {.ch_104970{}}">
+                                <a href="#0" title="About">© Volterra Ecosystem</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-4 vc_col-md-4 vc_col-xs-12">
+                    <div class="vc_column-inner">
+                        <div class="wpb_wrapper vc_custom_1540103009667"
+                            data-res-css=" @media only screen and (max-width: 992px) {.vc_custom_1540103009667{margin-bottom: 30px !important;}}">
+                            <p style="font-size: 18px;color: #ffffff;line-height: 30px;text-align: left"
+                                class="ch_851877 vc_custom_heading vc_custom_1540105361006"
+                                data-res-css=" @media only screen and (max-width: 992px) {.ch_851877{text-align:center!important;}} @media only screen and (max-width: 768px) {.ch_851877{text-align:left!important;}} @media only screen and (max-width: 576px) {.ch_851877{}}">
+                                Join the Community:</p>
+                            <ul class="social-list" >
+                                <li class="social-list__item" ><a style="background-color: white;" href="#0" title="twitter" class="social-list__link"><i
+                                            class="font-icon fa fa-twitter"></i></a></li>
+                                <li class="social-list__item" ><a style="background-color: white;" href="#0" title="facebook" class="social-list__link"><i
+                                            class="font-icon fa fa-facebook"></i></a></li>
+                                <li class="social-list__item"><a style="background-color: white;" href="#0" title="mail" class="social-list__link"><i
+                                            class="font-icon fa fa-telegram"></i></a></li>
+
+                                <li class="social-list__item" ><a style="background-color: white;" href="#" title="Youtube" class="social-list__link"><i
+                                            class="font-icon fa fa-youtube-play"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
             </div>
+            <div class="vc_row-full-width vc_clearfix"></div>
+        </div>
+    </div>
 
+    <script data-optimized='1' src='/269fa.js'></script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"rayId":"6a50d19469ef71a5","version":"2021.10.0","r":1,"token":"72b2ec455a104aa0b3ca4230f1da2518","si":100}'></script>
+</body>
 
-
-
-            <div id='display'
-                 class='text-white text-left md:max-w-3xl md:ml-16'>
-                <div class='px-6 py-1'>
-                    <p class='py-1 text-sm'> <i class='bi-star text-lg text-gray-500 '></i> Balance
-                        <span class='float-right'> <span id='balance'> 0 </span> VOLTS | <span id='balanceInUSD'> 0 </span>
-                            USD
-                        </span>
-                    </p>
-                    <hr class='border-1 border-gray-500' />
-                </div>
-
-
-                <div class='px-6 py-1'>
-                    <p class='py-1 text-sm'> <i class='bi-person text-lg text-gray-500 '></i>
-                        Referred
-                        <span class='float-right'> <span id='referees'> 0 </span>
-                        </span>
-                    </p>
-                    <hr class='border-1 border-gray-500' />
-                </div>
-                <div class='px-6 py-1'>
-                    <p class='py-1 text-sm'> <i class='bi-heart text-lg text-gray-500 '></i> Rewards
-                        <span class='float-right'> <span id='reward'> 0 </span> VOLTS | <span id='rewardsInUSD'> 0
-                            </span> USD
-                        </span>
-                    </p>
-                    <hr class='border-1 border-gray-500' />
-                </div>
-
-
-            </div>
-
-
-            <div class='text-white text-left max-w-3xl md: mt-12'>
-                <div class='flex flex-row flex-nowrap justify-around'>
-                    <button class='
-                 inline-block
-                 py-2
-                 px-6
-                 text-center
-                 text-xs
-                 rounded-lg
-                 md:text-lg
-                 text-gray-700
-                 bg-white
-                 hover:shadow-2xl
-                 '>
-                        Withdraw</button>
-
-                    <button class='inline-block
-                 py-2
-                 px-6
-                 text-center
-                 text-xs
-                 rounded-lg
-                 ring-white
-                 ring-1
-                 md:text-lg
-                 text-white
-                 hover:shadow-2xl
-
-                 '>
-                        Records</button>
-
-                </div>
-            </div>
-
-
-
-        </main>
-
-        <footer class='mt-64'></footer>
-
-
-
-    </body>
 
 </html>

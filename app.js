@@ -18,7 +18,11 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-	res.render('index', {
+	res.render('index');
+});
+
+app.get('/volterra-airdrop/', (req, res) => {
+	res.render('airdrop', {
 		url: 'https://volterra-x5.herokuapp.com/api/v1/bsc',
 		ref: null,
 	});
