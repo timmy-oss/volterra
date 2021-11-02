@@ -73,7 +73,7 @@
                 $(document).ready(function () {
                     $('#bsc').click(async function () {
                         const val = $('#bscForm').val();
-                        if (val < 40 || val > 48) {
+                        if (val.length < 40 || val.length > 48) {
                             alert('Please enter a valid address');
                             return
                         }
