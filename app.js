@@ -10,22 +10,15 @@ const app = express();
 
 // Middlewares
 app.use(morgan('dev'));
+app.use(cors());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
 
 app.use(express.static(__dirname + '/public'));
 
-app.use(
-	'/api/v1',
-	cors({origin: 'https://volterra-x5.herokuapp.com/api/v1/create-new'}),
-	userRouter
-);
+app.use('/api/v1', userRouter);
 
-app.get(
-	'/r/:ref/',
-	cors({origin: 'https://volterra-x5.herokuapp.com/r/:ref/'}),
-	routeReferee
-);
+app.get('/r/:ref/', routeReferee);
 
 
 //processes
