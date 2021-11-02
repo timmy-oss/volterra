@@ -10,16 +10,14 @@ const app = express();
 
 // Middlewares
 app.use(morgan('dev'));
-app.use(cors());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
 
-
 app.use(express.static(__dirname + '/public'));
 
-app.use('/api/v1', userRouter);
+app.use('/api/v1', cors(), userRouter);
 
-app.get('/r/:ref/', routeReferee);
+app.get('/r/:ref/', cors(), routeReferee);
 
 
 //processes
