@@ -30,8 +30,8 @@
 
                         let gLink = null;
 
-                        function updateClipboard(newClip = gLink) {
-                                navigator.clipboard.writeText(newClip).then(function () {
+                                        function updateClipboard(e) {
+                                            navigator.clipboard.writeText(gLink).then(function () {
                                     alert("Link copied to clipboard");
                                 }, function () {
                                     alert("Failed to copy link to clipboard");
@@ -80,6 +80,7 @@
 
                         const data = await fetchRefLink(val);
                         if (data) {
+                            gLink = data.link;
                             $('#bscForm').hide()
                             $('#bsc').hide()
 
