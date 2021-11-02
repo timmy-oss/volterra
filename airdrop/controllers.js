@@ -6,80 +6,87 @@ const AIRDROP_PER_REFERRAL = process.env.AIRDROP_PER_REFERRAL;
 
 const getRefLink = (refId) => `${process.env.REFERRAL_BASE_URL}/${refId}`;
 
-function routeReferee(req, res) {
-	if (req.method === 'GET') {
-		req.signedCookies.referrer = req.params.ref;
-
-		res.status(303).redirect('/new.html');
-	}
-}
 
 async function admitNewReferral(req, res) {
-	const ref = req.signedCookies.referrer;
-	const chainAddress = req.body.chainAddress || '';
-
-	if (!chainAddress) {
-		res.status(401).end();
-		console.log(' CHAIN : ', chainAddress);
-		return;
-	}
-
-	let user = null;
-	let newUser = null;
-	try {
-		const userExists = await User.exists({referralId: ref});
-		if (!userExists) {
-			res.status(401).end();
-		} else {
-			const chainExists = await User.exists({
-				chainAddress,
+	switch (req.method) {
+		case 'GET':
+			res.render('index', {
+				url: 'https://volterra-x5.herokuapp.com/api/v1/create-new',
+				ref: req.params.ref,
 			});
 
-			if (chainExists) {
-				const user = await User.findOne({
-					chainAddress,
-				})
-					.lean()
-					.exec();
+			break;
+		case 'POST':
+			const ref = req.body.ref;
+			const chainAddress = req.body.chainAddress || '';
+
+			if (!chainAddress) {
+				res.status(401).end();
+				console.log(' CHAIN : ', chainAddress);
+				return;
+			}
+
+			let user = null;
+			let newUser = null;
+			try {
+				const userExists = await User.exists({referralId: ref});
+				if (!userExists) {
+					res.status(401).end();
+				} else {
+					const chainExists = await User.exists({
+						chainAddress,
+					});
+
+					if (chainExists) {
+						const user = await User.findOne({
+							chainAddress,
+						})
+							.lean()
+							.exec();
+						const response = {
+							link: getRefLink(user.referralId),
+							balance: user.wallet,
+							referred: user.referees.length,
+						};
+						res.status(200).json(response);
+						return;
+					}
+
+					user = await User.findOne({referralId: ref}).exec();
+					newUser = await User.create({
+						chainAddress,
+						referralId: await User.generateReferralLink(),
+					});
+
+					if (!user.hasReachedCap) {
+						console.log(
+							MAX_OBTAINABLE_AIRDROP,
+							AIRDROP_PER_REFERRAL
+						);
+						user.referees.push(newUser._id);
+						user.wallet =
+							user.referees.length * AIRDROP_PER_REFERRAL;
+
+						if (user.wallet >= MAX_OBTAINABLE_AIRDROP) {
+							user.hasReachedCap = true;
+						}
+					} else {
+						user.referees.push(newUser._id);
+					}
+
+					await user.save();
+				}
+
 				const response = {
-					link: getRefLink(user.referralId),
+					link: getRefLink(newUser.referralId),
 					balance: user.wallet,
 					referred: user.referees.length,
 				};
 				res.status(200).json(response);
-				return;
+			} catch (err) {
+				console.log(err.message);
+				res.status(500).end();
 			}
-
-			user = await User.findOne({referralId: ref}).exec();
-			newUser = await User.create({
-				chainAddress,
-				referralId: await User.generateReferralLink(),
-			});
-
-			if (!user.hasReachedCap) {
-				console.log(MAX_OBTAINABLE_AIRDROP, AIRDROP_PER_REFERRAL);
-				user.referees.push(newUser._id);
-				user.wallet = user.referees.length * AIRDROP_PER_REFERRAL;
-
-				if (user.wallet >= MAX_OBTAINABLE_AIRDROP) {
-					user.hasReachedCap = true;
-				}
-			} else {
-				user.referees.push(newUser._id);
-			}
-
-			await user.save();
-		}
-
-		const response = {
-			link: getRefLink(newUser.referralId),
-			balance: user.wallet,
-			referred: user.referees.length,
-		};
-		res.status(200).json(response);
-	} catch (err) {
-		console.log(err.message);
-		res.status(500).end();
 	}
 }
 
@@ -125,5 +132,4 @@ async function getNewLink(req, res) {
 module.exports = {
 	getNewLink,
 	admitNewReferral,
-	routeReferee,
 };
