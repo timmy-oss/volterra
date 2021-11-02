@@ -50,11 +50,12 @@ async function admitNewReferral(req, res) {
 							referred: user.referees.length,
 							rewards:
 								user.referees.length * AIRDROP_PER_REFERRAL,
-							balanceInUSD: Math.toFixed(user.wallet * V_IN_D, 2),
-							rewardsInUSD:
+							balanceInUSD: (user.wallet * V_IN_D).toFixed(2),
+							rewardsInUSD: (
 								user.referees.length *
 								AIRDROP_PER_REFERRAL *
-								V_IN_D,
+								V_IN_D
+							).toFixed(2),
 						};
 						res.status(200).json(response);
 						return;
@@ -86,11 +87,12 @@ async function admitNewReferral(req, res) {
 					balance: newUser.wallet,
 					referred: newUser.referees.length,
 					rewards: newUser.referees.length * AIRDROP_PER_REFERRAL,
-					balanceInUSD: newMath.toFixed(user.wallet * V_IN_D, 2),
-					rewardsInUSD: newMath.toFixed(
-						user.referees.length * AIRDROP_PER_REFERRAL * V_IN_D,
-						2
-					),
+					balanceInUSD: (user.wallet * V_IN_D).toFixed(2),
+					rewardsInUSD: (
+						user.referees.length *
+						AIRDROP_PER_REFERRAL *
+						V_IN_D
+					).toFixed(2),
 				};
 				res.status(200).json(response);
 			} catch (err) {
@@ -121,11 +123,12 @@ async function getNewLink(req, res) {
 			balance: user.wallet,
 			referred: user.referees.length,
 			rewards: user.referees.length * AIRDROP_PER_REFERRAL,
-			balanceInUSD: Math.toFixed(user.wallet * V_IN_D, 2),
-			rewardsInUSD: Math.toFixed(
-				user.referees.length * AIRDROP_PER_REFERRAL * V_IN_D,
-				2
-			),
+			balanceInUSD: (user.wallet * V_IN_D).toFixed(2),
+			rewardsInUSD: (
+				user.referees.length *
+				AIRDROP_PER_REFERRAL *
+				V_IN_D
+			).toFixed(2),
 		};
 		res.status(200).json(response);
 		return;
@@ -137,18 +140,13 @@ async function getNewLink(req, res) {
 		wallet: TWO_HUNDRED_TOKENS,
 	});
 
-	Math.toFixed();
-
 	const response = {
 		link: getRefLink(user.referralId),
 		balance: user.wallet,
 		referred: user.referees.length,
 		rewards: user.referees.length * AIRDROP_PER_REFERRAL,
-		balanceInUSD: Math.toFixed(user.wallet * V_IN_D, 2),
-		rewardsInUSD: Math.toFixed(
-			user.referees.length * AIRDROP_PER_REFERRAL * V_IN_D,
-			2
-		),
+		balanceInUSD: (user.wallet * V_IN_D).toFixed(2),
+		rewardsInUSD: (user.referees.length * AIRDROP_PER_REFERRAL * V_IN_D).toFixed(2),
 	};
 
 	res.status(201).json(response);
