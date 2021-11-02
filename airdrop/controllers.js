@@ -8,7 +8,7 @@ const getRefLink = (refId) => `${process.env.REFERRAL_BASE_URL}/${refId}`;
 
 function routeReferee(req, res) {
 	if (req.method === 'GET') {
-		res.signedCookies.referrer = req.params.ref;
+		req.signedCookies.referrer = req.params.ref;
 
 		res.status(303).redirect('/new.html');
 	}
