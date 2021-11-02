@@ -75,7 +75,7 @@
                             $('#labelBsc').text("Your referral link ");
                             $('#showBoard').html(data.link + "<i class='bi-clipboard-plus ml-2   text-white'></i>");
                             $('#showBoard').fadeIn('slow');
-                            $('#display').slideDown();
+                            $('#display').slideUp();
 
 
                             $('#balance').text(data.balance);
@@ -83,10 +83,10 @@
                             $('#reward').text(data.balance)
 
 
-                            $('#display').slideUp();
+                            $('#display').slideDown();
 
                             $('#loader').hide();
-                        
+
 
                         }
                     })
@@ -126,7 +126,7 @@
                         <li>
                             <i id='loader'
                                class='hidden bi-circle-fill text-3xl z-30 text-white animate-ping'></i>
-                        
+
                         </li>
 
                     </ul>
