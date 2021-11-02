@@ -73,6 +73,16 @@
                             $('#labelBsc').text("Your referral link ");
                             $('#showBoard').html(data.link + "<i class='bi-clipboard-plus ml-2   text-white'></i>");
                             $('#showBoard').fadeIn('slow');
+                            $('#display').slideDown();
+
+
+                            $('#balance').text(data.balance);
+                            $('#referees').text(data.referred)
+                            $('#reward').text(data.balance)
+
+
+                            $('#display').slideUp();
+
                         }
                     })
 
@@ -169,7 +179,7 @@
 
                 <p style='font-family:Quicksand'
                    class='md:w-4/5 xl:w-3/5 text-left text-white text-sm md:text-xl py-6'>
-                    Copy and share your refer link, you and the invitee will be rewarded 1 VOLTERRA
+                    Copy and share your refer link, you and the invitee will be rewarded 1 VOLT
                     at the same time, each person can invite up to 50 persons, and the reward
                     can be up to 50 VOLTERRA tokens.
                 </p>
@@ -179,10 +189,11 @@
 
 
 
-            <div class='text-white text-left md:max-w-3xl md:ml-16'>
+            <div id='display'
+                 class='text-white text-left md:max-w-3xl md:ml-16'>
                 <div class='px-6 py-1'>
                     <p class='py-1 text-sm'> <i class='bi-star text-lg text-gray-500 '></i> Balance
-                        <span class='float-right'> 3 VOLTERRA
+                        <span class='float-right'> <span id='balance'> 0 </span> VOLTS
                         </span>
                     </p>
                     <hr class='border-1 border-gray-500' />
@@ -192,14 +203,14 @@
                 <div class='px-6 py-1'>
                     <p class='py-1 text-sm'> <i class='bi-person text-lg text-gray-500 '></i>
                         Referred
-                        <span class='float-right'> 5
+                        <span class='float-right'> <span id='referees'> 0 </span>
                         </span>
                     </p>
                     <hr class='border-1 border-gray-500' />
                 </div>
                 <div class='px-6 py-1'>
                     <p class='py-1 text-sm'> <i class='bi-heart text-lg text-gray-500 '></i> Rewards
-                        <span class='float-right'> 8 VOLTERAA
+                        <span class='float-right'> <span id='reward'> 0 </span> VOLTS
                         </span>
                     </p>
                     <hr class='border-1 border-gray-500' />
