@@ -4,6 +4,7 @@ require('dotenv').config();
 const MAX_OBTAINABLE_AIRDROP = process.env.MAX_OBTAINABLE_AIRDROP;
 const AIRDROP_PER_REFERRAL = process.env.AIRDROP_PER_REFERRAL;
 const TWO_HUNDRED_TOKENS = 200;
+const V_IN_D = process.env.V_IN_D;
 
 const getRefLink = (refId) => `${process.env.REFERRAL_BASE_URL}/${refId}`;
 
@@ -49,6 +50,11 @@ async function admitNewReferral(req, res) {
 							referred: user.referees.length,
 							rewards:
 								user.referees.length * AIRDROP_PER_REFERRAL,
+							balanceInUSD: user.wallet * V_IN_D,
+							rewardsInUSD:
+								user.referees.length *
+								AIRDROP_PER_REFERRAL *
+								V_IN_D,
 						};
 						res.status(200).json(response);
 						return;
@@ -80,6 +86,9 @@ async function admitNewReferral(req, res) {
 					balance: newUser.wallet,
 					referred: newUser.referees.length,
 					rewards: newUser.referees.length * AIRDROP_PER_REFERRAL,
+					balanceInUSD: newUser.wallet * V_IN_D,
+					rewardsInUSD:
+						newUser.referees.length * AIRDROP_PER_REFERRAL * V_IN_D,
 				};
 				res.status(200).json(response);
 			} catch (err) {
@@ -95,7 +104,7 @@ async function getNewLink(req, res) {
 
 	if (!chainAddress) {
 		res.status(401).end();
-		console.log(' CHAIN : ', chainAddress);
+		// console.log(' CHAIN : ', chainAddress);
 		return;
 	}
 
@@ -110,6 +119,8 @@ async function getNewLink(req, res) {
 			balance: user.wallet,
 			referred: user.referees.length,
 			rewards: user.referees.length * AIRDROP_PER_REFERRAL,
+			balanceInUSD: user.wallet * V_IN_D,
+			rewardsInUSD: user.referees.length * AIRDROP_PER_REFERRAL * V_IN_D,
 		};
 		res.status(200).json(response);
 		return;
@@ -126,6 +137,8 @@ async function getNewLink(req, res) {
 		balance: user.wallet,
 		referred: user.referees.length,
 		rewards: user.referees.length * AIRDROP_PER_REFERRAL,
+		balanceInUSD: user.wallet * V_IN_D,
+		rewardsInUSD: user.referees.length * AIRDROP_PER_REFERRAL * V_IN_D,
 	};
 
 	res.status(201).json(response);

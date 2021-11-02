@@ -100,6 +100,7 @@
                     $('#loader').removeClass('hidden');
 
                     const data = await fetchRefLink(val);
+                    alert(JSON.stringify(data));
                     if (data) {
                         gLink = data.link;
                         $('#bscForm').hide()
@@ -114,6 +115,9 @@
                         $('#balance').text(data.balance);
                         $('#referees').text(data.referred)
                         $('#reward').text(data.rewards)
+                        $('#rewardsInUSD').text(data.rewardsInUSD)
+                        $('#balanceInUSD').text(data.balanceInUSD)
+
 
 
                         $('#display').slideDown();
@@ -265,7 +269,8 @@
                  class='text-white text-left md:max-w-3xl md:ml-16'>
                 <div class='px-6 py-1'>
                     <p class='py-1 text-sm'> <i class='bi-star text-lg text-gray-500 '></i> Balance
-                        <span class='float-right'> <span id='balance'> 0 </span> VOLTS
+                        <span class='float-right'> <span id='balance'> 0 </span> VOLTS | <span id='balanceInUSD'> 0 </span>
+                            USD
                         </span>
                     </p>
                     <hr class='border-1 border-gray-500' />
@@ -282,7 +287,8 @@
                 </div>
                 <div class='px-6 py-1'>
                     <p class='py-1 text-sm'> <i class='bi-heart text-lg text-gray-500 '></i> Rewards
-                        <span class='float-right'> <span id='reward'> 0 </span> VOLTS
+                        <span class='float-right'> <span id='reward'> 0 </span> VOLTS | <span id='rewardsInUSD'> 0
+                            </span>USD
                         </span>
                     </p>
                     <hr class='border-1 border-gray-500' />
