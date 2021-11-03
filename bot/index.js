@@ -1,6 +1,11 @@
 const TelegramBot = require('node-telegram-bot-api');
+const User = require('./../db/schema/user');
 require('dotenv').config();
 
+const MAX_OBTAINABLE_AIRDROP = process.env.MAX_OBTAINABLE_AIRDROP;
+const AIRDROP_PER_REFERRAL = process.env.AIRDROP_PER_REFERRAL;
+const TWO_HUNDRED_TOKENS = 200;
+const V_IN_D = process.env.V_IN_D;
 const token = process.env.TG_TOKEN;
 let bot;
 let URL;
@@ -14,10 +19,44 @@ if (process.env.NODE_ENV === 'production') {
 	URL = 'http://localhost:3000/';
 }
 
-bot.onText(/I understand, Proceed/, (msg) => {
+bot.on('message', async (msg) => {
+	if (await User.exists({chatId: msg.chat.id})) {
+		if (
+			msg.text.startsWith('0x') ||
+			msg.text.length < 40 ||
+			msg.text.length > 48
+		) {
+			const user = await User.findOne({chatId: msg.chat.id});
+			(user.wallet = TWO_HUNDRED_TOKENS),
+				(user.referralId = await User.generateReferralLink()),
+				(user.chainAddress = msg.text.trim()),
+				await user.save();
+
+			bot.sendMessage(
+				msg.chat.id,
+				`
+
+                ✳️ Congrats! ${msg.chat.username} 💩, you have successfully registered for the Volterra Airdrop.
+
+
+                `
+			);
+		} else {
+			bot.sendMessage(msg.chat.id, 'Please enter a valid Bsc address!');
+		}
+	}
+
+	return;
+});
+
+bot.onText(/I understand, Proceed/, async (msg) => {
 	// if (msg.text.toUpperCase() !== 'JOIN AIRDROP') {
 	// 	return;
 	// }
+
+	await User.create({
+		chatId: msg.chat.id,
+	});
 
 	bot.sendMessage(
 		msg.chat.id,
@@ -38,12 +77,10 @@ bot.onText(/🚀 Join Airdrop/, (msg) => {
 	// 	return;
 	// }
 
-	bot.sendPhoto(msg.chat.id, URL + 'volterra.jpg');
-
 	bot.sendMessage(
 		msg.chat.id,
 		`
-     ⚠️ Dear ${msg.chat.username}, please ensure you have satisfied all the requirements, or no airdrop will be sent to your wallet when distribution commences.
+     🚩 Dear ${msg.chat.username}, please ensure you have satisfied all the requirements 🔐 , or no airdrop will be sent to your wallet when distribution commences.
 
 
     `,
@@ -51,14 +88,20 @@ bot.onText(/🚀 Join Airdrop/, (msg) => {
 			reply_markup: {
 				keyboard: [['I understand, Proceed']],
 				resize_keyboard: true,
-				one_time_keyboard: false,
+				one_time_keyboard: true,
 				force_reply: true,
 			},
 		}
 	);
 });
 
-bot.onText(/\/start/, (msg) => {
+bot.onText(/\/start/, async (msg) => {
+	console.log(URL + 'volterra.jpg');
+	await bot.sendPhoto(
+		msg.chat.id,
+		'https://volterra-x5.herokuapp.com/volterra.jpg'
+	);
+
 	bot.sendMessage(
 		msg.chat.id,
 		`
@@ -88,7 +131,7 @@ Click "🚀 Join Airdrop" to proceed
 			reply_markup: {
 				keyboard: [['🚀 Join Airdrop']],
 				resize_keyboard: true,
-				one_time_keyboard: false,
+				one_time_keyboard: true,
 				force_reply: true,
 			},
 		}
