@@ -3,15 +3,18 @@ require('dotenv').config();
 
 const token = process.env.TG_TOKEN;
 let bot;
+let URL;
 
 if (process.env.NODE_ENV === 'production') {
 	bot = new TelegramBot(token);
+	URL = process.env.HEROKU_URL;
 	bot.setWebHook(process.env.HEROKU_URL + bot.token);
 } else {
 	bot = new TelegramBot(token, {polling: true});
+	URL = 'http://localhost:3000/';
 }
 
-bot.onText(/Join Airdrop/, (msg) => {
+bot.onText(/I understand, Proceed/, (msg) => {
 	// if (msg.text.toUpperCase() !== 'JOIN AIRDROP') {
 	// 	return;
 	// }
@@ -19,7 +22,28 @@ bot.onText(/Join Airdrop/, (msg) => {
 	bot.sendMessage(
 		msg.chat.id,
 		`
-     Dear ${msg.chat.username}, please ensure you have satisfied all the requirements, or no airdrop will be sent to your wallet when distribution commences.
+Please, enter your BSC address
+
+    `,
+		{
+			reply_markup: {
+				keyboard: [],
+			},
+		}
+	);
+});
+
+bot.onText(/🚀 Join Airdrop/, (msg) => {
+	// if (msg.text.toUpperCase() !== 'JOIN AIRDROP') {
+	// 	return;
+	// }
+
+	bot.sendPhoto(msg.chat.id, URL + 'volterra.jpg');
+
+	bot.sendMessage(
+		msg.chat.id,
+		`
+     ⚠️ Dear ${msg.chat.username}, please ensure you have satisfied all the requirements, or no airdrop will be sent to your wallet when distribution commences.
 
 
     `,
@@ -62,7 +86,7 @@ Click "🚀 Join Airdrop" to proceed
     `,
 		{
 			reply_markup: {
-				keyboard: [['Join Airdrop']],
+				keyboard: [['🚀 Join Airdrop']],
 				resize_keyboard: true,
 				one_time_keyboard: false,
 				force_reply: true,
