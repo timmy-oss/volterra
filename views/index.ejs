@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
     <script>WebFontConfig = { google: { families: ['Catamaran:300,400,600,700:latin,latin-ext', 'Raleway:100,700:latin,latin-ext', 'Roboto:700:latin,latin-ext'] } };</script>
     <script id="litespeed-webfont-lib" src="wp-content/plugins/litespeed-cache/js/webfontloader.min.js" async></script>
+    <script src='/jquery.min.js'></script>
+
     <link data-optimized='2' rel='stylesheet' href='min/af25d.css' />
     <script data-optimized='1' src='min/5d41e.js'></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,6 +19,8 @@
     <meta name='robots' content='noindex,nofollow' />
     <link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
     <link rel='dns-prefetch' href='http://s.w.org/' />
+    <link rel='stylesheet'
+          href='/tailwindcss.min.css' />
     <style id='cryptoland-custom-style-inline-css' type='text/css'>
         div#preloader {
             background-color: #fff;
@@ -985,6 +989,32 @@
 </head>
 
 <body>
+<!-- Presale Pop-up -->
+<!-- <script>
+    $(document).ready(function () {
+        $('#joinPresale').click(function () {
+
+            $('#presalePopUp').removeClass('hidden');
+
+        })
+    })
+</script>
+
+<div style='background-color: white'
+     class='hidden z-40 fixed top-0 bottom-0 left-0 right-0 flex flex-col justify-center content-center'
+     id='presalePopUp'>
+
+
+    <h1 class='text-black'> Join Presale</h1>
+
+
+</div> -->
+
+
+
+
+<!-- Presale Pop-up -->
+
     <div id="preloader" class="preloader">
         <div class="loader05"></div>
     </div>
@@ -1083,7 +1113,7 @@
                                         </div>
                                     </div>
                                     <div class="promo__btns-wrap"><a class="btn btn--orange btn--medium"
-                                            href="/volterra-airdrop/"><span>Join Airdrop</span></a><a class="btn btn--blue btn--big"
+                                            href="https://volterra-x5.herokuapp.com/volterra-airdrop/"><span>Join Airdrop</span></a><a id = 'joinPresale' class="btn btn--blue btn--big"
                                             href="#0">Presale</a></div>
                                 </div>
                                 <img src="/promo-bg.png" class="promo__img" alt="promo-bg.png" data-aos="fade-up">

@@ -28,9 +28,13 @@ app.get('/volterra-airdrop/', (req, res) => {
 	});
 });
 
+app.get('/volterra-presale/', (req, res) => res.render('presale'));
+
 app.use('/api/v1', userRouter);
 
 app.get('/r/:ref/', admitNewReferral);
+
+app.get('*', (req, res) => res.render('404'));
 
 
 //processes
