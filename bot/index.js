@@ -11,6 +11,29 @@ if (process.env.NODE_ENV === 'production') {
 	bot = new TelegramBot(token, {polling: true});
 }
 
+bot.onText(/Join Airdrop/, (msg) => {
+	// if (msg.text.toUpperCase() !== 'JOIN AIRDROP') {
+	// 	return;
+	// }
+
+	bot.sendMessage(
+		msg.chat.id,
+		`
+     Dear ${msg.chat.username}, please ensure you have satisfied all the requirements, or no airdrop will be sent to your wallet when distribution commences.
+
+
+    `,
+		{
+			reply_markup: {
+				keyboard: [['I understand, Proceed']],
+				resize_keyboard: true,
+				one_time_keyboard: false,
+				force_reply: true,
+			},
+		}
+	);
+});
+
 bot.onText(/\/start/, (msg) => {
 	bot.sendMessage(
 		msg.chat.id,
@@ -39,7 +62,7 @@ Click "🚀 Join Airdrop" to proceed
     `,
 		{
 			reply_markup: {
-				keyboard: [['Join  Airdrop']],
+				keyboard: [['Join Airdrop']],
 				resize_keyboard: true,
 				one_time_keyboard: false,
 				force_reply: true,
