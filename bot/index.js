@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'production') {
 	URL = 'http://localhost:3000/';
 }
 
-bot.on('message', async (msg) => {
+bot.onText(/0xw{40,48}/, async (msg) => {
 	if (await User.exists({chatId: msg.chat.id})) {
 		if (
 			msg.text.startsWith('0x') ||
