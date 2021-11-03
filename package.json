@@ -16,7 +16,8 @@
 		"mongoose": "^6.0.12",
 		"morgan": "^1.10.0",
 		"nano": "^9.0.5",
-		"nanoid": "^3.1.30"
+		"nanoid": "^3.1.30",
+		"node-telegram-bot-api": "^0.54.0"
 	},
 	"engines": {
 		"node": "14.x"
